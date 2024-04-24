@@ -570,7 +570,142 @@ int rob2(vector<int> &nums)
 //     return 0;
 // }
 
+// Definition for a binary tree node.
+struct TreeNode
+{
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+};
+
 // 打家劫舍3
+// 这道题刚开始想着隔行求和，比较奇数行和偶数行的和，但是这样的话会漏掉一些情况，比如说[4,1,null,2,null,3]，这样的情况就会出错。
+// 需要使用树形dp！
+
+vector<int> robTree(TreeNode *cur)
+{
+    if (cur == nullptr)
+        return {0, 0};
+    vector<int> left = robTree(cur->left);
+    vector<int> right = robTree(cur->right);
+    int rob = cur->val + left[0] + right[0];
+    int not_rob = max(left[0], left[1]) + max(right[0], right[1]);
+    return {not_rob, rob};
+}
+
 int rob3(TreeNode *root)
 {
+    vector<int> res = robTree(root);
+    return max(res[0], res[1]);
+}
+
+/// @brief 买股票的最佳时期系列
+/// @param prices
+/// @return
+
+// 买卖股票的最佳时期1
+// 这个问题使用贪心做法最简单，只需要找到最小的谷之后的最大的峰，就是最大的利润。
+// int maxProfit1(vector<int> &prices)
+// {
+
+//     int n= prices.size();
+//     int minpre = INT_MAX;
+//     int maxprofit = 0;
+//     for (int i = 0; i < n; i++)
+//     {
+//         minpre = min(minpre, prices[i]);
+//         maxprofit = max(prices[i]-minpre,maxprofit);
+//     }
+//     return maxprofit;
+// }
+
+int maxProfit1(vector<int> &prices)
+{
+
+    int n = prices.size();
+    // dp[i][j]表示第i天持有股票或者不持有股票的最大利润
+    vector<vector<int>> dp(n, vector<int>(2, 0));
+    // 0表示不持有股票，1表示持有股票
+    dp[0][0] = 0;
+    dp[0][1] = -prices[0];
+    for (int i = 1; i < n; i++)
+    {
+        dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+        dp[i][1] = max(dp[i - 1][1], -prices[i]);
+    }
+
+    return dp[n - 1][0];
+}
+
+int maxProfit2(vector<int> &prices)
+{
+
+    int n = prices.size();
+    // dp[i][j]表示第i天持有股票或者不持有股票的最大利润
+    vector<vector<int>> dp(n, vector<int>(2, 0));
+    // 0表示不持有股票，1表示持有股票
+    dp[0][0] = 0;
+    dp[0][1] = -prices[0];
+    for (int i = 1; i < n; i++)
+    {
+        dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+        dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
+    }
+
+    return dp[n - 1][0];
+}
+
+int maxProfit3(vector<int> &prices)
+{
+
+    int n = prices.size();
+    // dp[i][j]表示第i天持有股票或者不持有股票的最大利润
+    vector<vector<int>> dp(n, vector<int>(4, 0));
+    // 1持 1不持 2持 2不持
+    dp[0][0] = -prices[0];
+    dp[0][1] = 0;
+    dp[0][2] = -prices[0];
+    dp[0][3] = 0;
+    for (int i = 1; i < n; i++)
+    {
+        dp[i][0] = max(dp[i - 1][0], -prices[i]);
+        dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
+        dp[i][2] = max(dp[i - 1][3], dp[i - 1][1] - prices[i]);
+        dp[i][3] = max(dp[i - 1][2], dp[i - 1][2] + prices[i]);
+    }
+
+    return dp[n - 1][2];
+}
+
+int maxProfit3(int k, vector<int> &prices)
+{
+
+    int n = prices.size();
+    // dp[i][j]表示第i天持有股票或者不持有股票的最大利润
+    vector<vector<int>> dp(n, vector<int>(4, 0));
+    // 1持 1不持 2持 2不持
+    dp[0][0] = -prices[0];
+    dp[0][1] = 0;
+    dp[0][2] = -prices[0];
+    dp[0][3] = 0;
+    for (int i = 1; i < n; i++)
+    {
+        dp[i][0] = max(dp[i - 1][0], -prices[i]);
+        dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
+        dp[i][2] = max(dp[i - 1][3], dp[i - 1][1] - prices[i]);
+        dp[i][3] = max(dp[i - 1][2], dp[i - 1][2] + prices[i]);
+    }
+
+    return dp[n - 1][2];
+}
+
+int main()
+{
+    vector<int> prices = {3, 3, 5, 0, 0, 3, 1, 4};
+    cout << maxProfit3(prices) << endl;
+    system("pause");
+    return 0;
 }
