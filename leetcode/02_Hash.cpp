@@ -1,61 +1,60 @@
 #include <iostream>
-#include<vector>
-#include<algorithm>
+#include <vector>
+#include <algorithm>
 #include <unordered_map>
-#include<unordered_set>
-#include<stack>
-
-
+#include <unordered_set>
+#include <stack>
 
 using namespace std;
 
-
-//STLÖĞ¹şÏ£±íµÄ»ù±¾ÓÃ·¨
+// STLä¸­å“ˆå¸Œè¡¨çš„åŸºæœ¬ç”¨æ³•
 void basic()
 {
 	std::unordered_map<std::string, int> myMap;
 
-	// Ìí¼Ó¼üÖµ¶Ô
+	// æ·»åŠ é”®å€¼å¯¹
 	myMap["Alice"] = 25;
 	myMap["Bob"] = 30;
 	myMap["Charlie"] = 35;
 
-
-	//É¾³ı¼üÖµ¶Ô
+	// åˆ é™¤é”®å€¼å¯¹
 	myMap.erase("Bob");
 
-	// ¼ì²é¼üÊÇ·ñ´æÔÚ
-	if (myMap.find("David") != myMap.end()) {
+	// æ£€æŸ¥é”®æ˜¯å¦å­˜åœ¨
+	if (myMap.find("David") != myMap.end())
+	{
 		std::cout << "David's age is: " << myMap["David"] << std::endl;
 	}
-	else {
+	else
+	{
 		std::cout << "David is not in the map." << std::endl;
 	}
-	// ±éÀú¹şÏ£±í·½·¨1
-	for (auto it = myMap.begin(); it != myMap.end(); it++) {
+	// éå†å“ˆå¸Œè¡¨æ–¹æ³•1
+	for (auto it = myMap.begin(); it != myMap.end(); it++)
+	{
 		std::cout << it->first << "'s age is: " << it->second << std::endl;
 	}
-	// ±éÀú¹şÏ£±í·½·¨2
-	for (const auto& pair : myMap) {
+	// éå†å“ˆå¸Œè¡¨æ–¹æ³•2
+	for (const auto &pair : myMap)
+	{
 		std::cout << pair.first << "'s age is: " << pair.second << std::endl;
 	}
 }
 
-//int main()
+// int main()
 //{
 //
 //	basic();
 //	return 0;
-//}
-
-
+// }
 
 /// <summary>
-/// 1.Á½ÊıÖ®ºÍ--¹şÏ£ÊµÏÖ
+/// 1.ä¸¤æ•°ä¹‹å’Œ--å“ˆå¸Œå®ç°
 /// </summary>
-vector<int> twoSum(std::vector<int>& nums, int target) {
-	unordered_map<int, int>map;
-	vector<int>result;
+vector<int> twoSum(std::vector<int> &nums, int target)
+{
+	unordered_map<int, int> map;
+	vector<int> result;
 	for (int i = 0; i < nums.size(); i++)
 	{
 		int other = target - nums[i];
@@ -66,13 +65,11 @@ vector<int> twoSum(std::vector<int>& nums, int target) {
 			return result;
 		}
 		map[nums[i]] = i;
-
 	}
 	return result;
 }
 
-
-//int main() {
+// int main() {
 //	std::vector<int> nums = { 2, 7, 11, 15 };
 //	int target = 14;
 //	std::vector<int> result = twoSum(nums, target);
@@ -85,40 +82,47 @@ vector<int> twoSum(std::vector<int>& nums, int target) {
 //	}
 //
 //	return 0;
-//}
-
+// }
 
 /// <summary>
-/// ÎŞÖØ¸´µÄ×î³¤×Ó´®µÄ³¤¶È
+/// æ— é‡å¤çš„æœ€é•¿å­ä¸²çš„é•¿åº¦
 /// </summary>
-int lengthOfLongestSubstring(string s) {
-	unordered_map<char, int>map;
-	int i =0, j = 0;
+int lengthOfLongestSubstring(string s)
+{
+	unordered_map<char, int> map;
+	int i = 0, j = 0;
 	int maxlen = 0;
-	while (j<s.size())
+	while (j < s.size())
 	{
-		if (map[s[j]] == 0) { map[s[j]]++; j++; }
-		else { map[s[i]]--; i++; }
+		if (map[s[j]] == 0)
+		{
+			map[s[j]]++;
+			j++;
+		}
+		else
+		{
+			map[s[i]]--;
+			i++;
+		}
 
 		maxlen = max(maxlen, j - i);
 	}
 	return maxlen;
 }
 
-
-
-//int main() {
-//	string s = "abcb"; // ²âÊÔÓÃÀı
-//	cout << "ÎŞÖØ¸´×Ö·ûµÄ×î³¤×Ó´®³¤¶ÈÎª£º" << lengthOfLongestSubstring(s) << endl;
+// int main() {
+//	string s = "abcb"; // æµ‹è¯•ç”¨ä¾‹
+//	cout << "æ— é‡å¤å­—ç¬¦çš„æœ€é•¿å­ä¸²é•¿åº¦ä¸ºï¼š" << lengthOfLongestSubstring(s) << endl;
 //	return 0;
-//}
+// }
 
 /// <summary>
-/// ÂŞÂíÊı×Ö×ªÕûÊı
+/// ç½—é©¬æ•°å­—è½¬æ•´æ•°
 /// </summary>
-int romanToInt(string s) {
+int romanToInt(string s)
+{
 
-	unordered_map<char, int>map;
+	unordered_map<char, int> map;
 	map['I'] = 1;
 	map['V'] = 5;
 	map['X'] = 10;
@@ -130,15 +134,18 @@ int romanToInt(string s) {
 	int result = 0;
 	int prevValue = 0;
 
-	for (int i = s.length() - 1; i >= 0; i--) {
+	for (int i = s.length() - 1; i >= 0; i--)
+	{
 		int currentValue = map[s[i]];
 
-		// Èç¹ûµ±Ç°×Ö·û´ú±íµÄÊı×ÖĞ¡ÓÚÇ°Ò»¸ö×Ö·û£¬ĞèÒª¼õÈ¥
-		if (currentValue < prevValue) {
+		// å¦‚æœå½“å‰å­—ç¬¦ä»£è¡¨çš„æ•°å­—å°äºå‰ä¸€ä¸ªå­—ç¬¦ï¼Œéœ€è¦å‡å»
+		if (currentValue < prevValue)
+		{
 			result -= currentValue;
 		}
-		// ·ñÔò£¬¼ÓÉÏµ±Ç°×Ö·û´ú±íµÄÊı×Ö
-		else {
+		// å¦åˆ™ï¼ŒåŠ ä¸Šå½“å‰å­—ç¬¦ä»£è¡¨çš„æ•°å­—
+		else
+		{
 			result += currentValue;
 		}
 
@@ -146,28 +153,25 @@ int romanToInt(string s) {
 	}
 
 	return result;
-	
-
 }
 
-
-//int main()
+// int main()
 //{
 //	string  s1 = { "IV" };
 //	int a = romanToInt(s1);
 //	cout << a << endl;
 //	return 0;
-//}
+// }
 
-
-
-//Î¨Ò»ÊıÖ®ºÍ
-int sumOfUnique(vector<int>& nums) {
+// å”¯ä¸€æ•°ä¹‹å’Œ
+int sumOfUnique(vector<int> &nums)
+{
 
 	unordered_map<int, int> hashMap;
 	int sum = 0;
 
-	for (int i = 0; i < 100; ++i) {
+	for (int i = 0; i < 100; ++i)
+	{
 		hashMap[i] = 0;
 	}
 	for (int i = 0; i < nums.size(); i++)
@@ -182,14 +186,15 @@ int sumOfUnique(vector<int>& nums) {
 	return sum;
 }
 
-
 /// <summary>
-/// ½«Êı×é»®·Ö³ÉÏàµÈÊı¶Ô
+/// å°†æ•°ç»„åˆ’åˆ†æˆç›¸ç­‰æ•°å¯¹
 /// </summary>
-bool divideArray(vector<int>& nums) {
+bool divideArray(vector<int> &nums)
+{
 	unordered_map<int, int> hashMap;
 
-	for (int i = 0; i < 501; ++i) {
+	for (int i = 0; i < 501; ++i)
+	{
 		hashMap[i] = 0;
 	}
 	for (int i = 0; i < nums.size(); i++)
@@ -200,22 +205,19 @@ bool divideArray(vector<int>& nums) {
 	{
 		if (hashMap[nums[i]] / 2 != 0)
 			return false;
-		
-
 	}
 	return true;
-
 }
 
-
 /// <summary>
-/// ÅĞ¶Ï¾ä×ÓÊÇ·ñÎªÈ«×ÖÄ¸¾ä
+/// åˆ¤æ–­å¥å­æ˜¯å¦ä¸ºå…¨å­—æ¯å¥
 /// </summary>
-bool checkIfPangram(string sentence) {
+bool checkIfPangram(string sentence)
+{
 	unordered_map<char, int> hashMap;
 	for (int i = 0; i < 26; i++)
 	{
-		hashMap['a'+i] = 0;
+		hashMap['a' + i] = 0;
 	}
 	for (int i = 0; i < sentence.size(); i++)
 	{
@@ -228,15 +230,13 @@ bool checkIfPangram(string sentence) {
 	}
 
 	return true;
-
 }
 
-
-
 /// <summary>
-/// ºÃÊı¶ÔµÄ¸öÊı
+/// å¥½æ•°å¯¹çš„ä¸ªæ•°
 /// </summary>
-int numIdenticalPairs(vector<int>& nums) {
+int numIdenticalPairs(vector<int> &nums)
+{
 	unordered_map<int, int> hashMap;
 	int ans = 0;
 	for (int i = 0; i < nums.size(); i++)
@@ -245,59 +245,55 @@ int numIdenticalPairs(vector<int>& nums) {
 		hashMap[nums[i]]++;
 	}
 	return ans;
-
 }
 
-//int main() {
+// int main() {
 //	vector<int>nums = { 1,2,1,5,1 };
 //	int r = numIdenticalPairs(nums);
 //	cout << r << endl;
-//}
-
-
+// }
 
 /// <summary>
-/// ²îµÄ¾ø¶ÔÖµÎª K µÄÊı¶ÔÊıÄ¿
+/// å·®çš„ç»å¯¹å€¼ä¸º K çš„æ•°å¯¹æ•°ç›®
 /// </summary>
 
-int countKDifference(vector<int>& nums, int k) {
+int countKDifference(vector<int> &nums, int k)
+{
 	int result = 0;
-	unordered_map<int, int>map;
-	for (int i = 0; i < 100; ++i) {
+	unordered_map<int, int> map;
+	for (int i = 0; i < 100; ++i)
+	{
 		map[i] = 0;
 	}
 	for (int i = 0; i < nums.size(); i++)
 	{
 		int x = nums[i] - k;
-		if(x>=1&&x<=100)
-			result+=map[x];
+		if (x >= 1 && x <= 100)
+			result += map[x];
 		x = nums[i] + k;
 		if (x >= 1 && x <= 100)
 			result += map[x];
 		map[nums[i]]++;
 	}
 	return result;
-
 }
 
-
-//int main() {
+// int main() {
 //	vector<int>nums = {3,2,1,5,4};
 //	int k = 2;
 //	int r = countKDifference(nums,k);
 //	cout <<r<< endl;
-//}
-
-
+// }
 
 /// <summary>
-/// ºÍÏàÍ¬µÄ¶şÔª×ÓÊı×é
+/// å’Œç›¸åŒçš„äºŒå…ƒå­æ•°ç»„
 /// </summary>
-/// ·½·¨Ò»---¹şÏ£±íÇ°×ººÍ
-int numSubarraysWithSum1(vector<int>& nums, int goal) {	
-	
+/// æ–¹æ³•ä¸€---å“ˆå¸Œè¡¨å‰ç¼€å’Œ
+int numSubarraysWithSum1(vector<int> &nums, int goal)
+{
+
 	int n = nums.size();
-	unordered_map<int, int>map;
+	unordered_map<int, int> map;
 	int count = 0;
 	int presum = 0;
 	for (int i = 0; i < n; i++)
@@ -307,26 +303,26 @@ int numSubarraysWithSum1(vector<int>& nums, int goal) {
 		{
 			count++;
 		}
-		//Èç¹ûÇ°×ººÍÖĞÒÑ¾­ÓĞ prefixSum - goal£¬ËµÃ÷µ±Ç°Î»ÖÃµ½Ç°Ò»¸öÎ»ÖÃµÄ×ÓÊı×éºÍÎª goal
-		if (map.find(presum - goal) != map.end()) 
+		// å¦‚æœå‰ç¼€å’Œä¸­å·²ç»æœ‰ prefixSum - goalï¼Œè¯´æ˜å½“å‰ä½ç½®åˆ°å‰ä¸€ä¸ªä½ç½®çš„å­æ•°ç»„å’Œä¸º goal
+		if (map.find(presum - goal) != map.end())
 		{
-		count += map[presum - goal];
+			count += map[presum - goal];
 		}
-		// ¸üĞÂÇ°×ººÍ¼ÆÊı
+		// æ›´æ–°å‰ç¼€å’Œè®¡æ•°
 		map[presum]++;
 	}
 	return count;
 }
 
-//»¬¶¯´°¿Ú½â·¨
-int numSubarraysWithSum(vector<int>& nums, int k) 
-{	
-	//int left1 = 0;
-	//int left2 = 0
-	//int sum1 = 0;
-	//int sum2 = 0;
-	//int count = 0;
-	//for (int right = 0; right < nums.size(); right++)
+// æ»‘åŠ¨çª—å£è§£æ³•
+int numSubarraysWithSum(vector<int> &nums, int k)
+{
+	// int left1 = 0;
+	// int left2 = 0
+	// int sum1 = 0;
+	// int sum2 = 0;
+	// int count = 0;
+	// for (int right = 0; right < nums.size(); right++)
 	//{
 	//	sum1 += nums[right];
 	//	while(left1<=right&&sum1 > goal)
@@ -352,15 +348,18 @@ int numSubarraysWithSum(vector<int>& nums, int k)
 	int sum = 0;
 	int count = 0;
 
-	for (int right = 0; right < n; right++) {
+	for (int right = 0; right < n; right++)
+	{
 		sum += nums[right];
 
-		while (left <= right && sum > k) {
+		while (left <= right && sum > k)
+		{
 			sum -= nums[left];
 			left++;
 		}
 
-		if (sum == k) {
+		if (sum == k)
+		{
 			count++;
 		}
 	}
@@ -368,32 +367,31 @@ int numSubarraysWithSum(vector<int>& nums, int k)
 	return count;
 }
 
-
-//int main() {
+// int main() {
 //	vector<int> nums = { -1,-1,1 };
 //	int goal = 0;
 //	int result = numSubarraysWithSum(nums, goal);
-//	cout << "¾ßÓĞºÍÎª " << goal << " µÄ·Ç¿Õ×ÓÊı×éÊıÁ¿Îª£º" << result << endl;
+//	cout << "å…·æœ‰å’Œä¸º " << goal << " çš„éç©ºå­æ•°ç»„æ•°é‡ä¸ºï¼š" << result << endl;
 //
 //	return 0;
-//}
-
-
+// }
 
 /// <summary>
-/// ÈıÊıÖ®ºÍ
+/// ä¸‰æ•°ä¹‹å’Œ
 /// </summary>
-vector<vector<int>> threeSum(vector<int>& nums) {
+vector<vector<int>> threeSum(vector<int> &nums)
+{
 
 	vector<vector<int>> ans;
 	int n = nums.size();
 	sort(nums.begin(), nums.end());
 	for (int i = 0; i < n - 2; i++)
 	{
-		if (i > 0 && nums[i] == nums[i - 1]) {
+		if (i > 0 && nums[i] == nums[i - 1])
+		{
 			continue;
 		}
-		int l = i+1;
+		int l = i + 1;
 		int r = n - 1;
 		while (l < r)
 		{
@@ -401,12 +399,11 @@ vector<vector<int>> threeSum(vector<int>& nums) {
 
 			if (sum == 0)
 			{
-				ans.push_back({ nums[l], nums[r], nums[i] });
+				ans.push_back({nums[l], nums[r], nums[i]});
 				while (l < r && nums[l] == nums[l + 1])
 					l++;
 				while (l < r && nums[r] == nums[r - 1])
 					r--;
-
 
 				l++;
 				r--;
@@ -415,17 +412,12 @@ vector<vector<int>> threeSum(vector<int>& nums) {
 				r--;
 			else
 				l++;
-
-
 		}
-		
 	}
 	return ans;
-
 }
 
-
-//int main() {
+// int main() {
 //	vector<int> nums = { -1, 0, 1, 2, -1, -4 };
 //	vector<vector<int>> result = threeSum(nums);
 //
@@ -437,36 +429,32 @@ vector<vector<int>> threeSum(vector<int>& nums) {
 //	}
 //
 //	return 0;
-//}
-
-
+// }
 
 /// <summary>
-/// ×ÖÄ¸ÒìÎ»Êı
+/// å­—æ¯å¼‚ä½æ•°
 /// </summary>
-/// Ö»Ê¹ÓÃÒ»¸ö¼òµ¥µÄ<char,int>¹şÏ£±íµÄ»°£¬²»ÄÜÅĞ¶ÏÒ»¸ö×Ö·û´®×éÖĞµÄÒìÎ»Êı
-/// ÈÃÃ¿¸ö¼ü¶ÔÓ¦ÓÉ¸Ã¼ü×é³ÉµÄËùÓĞ×ÖÄ¸ÒìÎ»Êı£¬´ËÊ±£¬keyÎªstring,¶øvalueÎªvector<value>
-/// Ö»Ğè°ÑÃ¿¸ö½«Òª±éÀúµÄ×Ö·û´®¸³Öµ¸økey£¬Ö®ºóÅÅĞò£¬¼´¿ÉÕÒµ½¶ÔÓ¦¹ØÏµ
-vector<vector<string>> groupAnagrams(vector<string>& strs) {
-	vector<vector<string>>ans;
-	unordered_map<string, vector<string>>map;
-	for (auto str:strs){
+/// åªä½¿ç”¨ä¸€ä¸ªç®€å•çš„<char,int>å“ˆå¸Œè¡¨çš„è¯ï¼Œä¸èƒ½åˆ¤æ–­ä¸€ä¸ªå­—ç¬¦ä¸²ç»„ä¸­çš„å¼‚ä½æ•°
+/// è®©æ¯ä¸ªé”®å¯¹åº”ç”±è¯¥é”®ç»„æˆçš„æ‰€æœ‰å­—æ¯å¼‚ä½æ•°ï¼Œæ­¤æ—¶ï¼Œkeyä¸ºstring,è€Œvalueä¸ºvector<value>
+/// åªéœ€æŠŠæ¯ä¸ªå°†è¦éå†çš„å­—ç¬¦ä¸²èµ‹å€¼ç»™keyï¼Œä¹‹åæ’åºï¼Œå³å¯æ‰¾åˆ°å¯¹åº”å…³ç³»
+vector<vector<string>> groupAnagrams(vector<string> &strs)
+{
+	vector<vector<string>> ans;
+	unordered_map<string, vector<string>> map;
+	for (auto str : strs)
+	{
 		string key = str;
 		sort(key.begin(), key.end());
 		map[key].emplace_back(str);
-	
-	}		
+	}
 	for (auto it = map.begin(); it != map.end(); ++it)
 	{
-			ans.emplace_back(it->second);
+		ans.emplace_back(it->second);
 	}
 	return ans;
-
 }
 
-
-
-//int main() {
+// int main() {
 //	vector<string> input = { "eat", "tea", "tan", "ate", "nat", "bat" };
 //	vector<vector<string>> groupedAnagrams = groupAnagrams(input);
 //
@@ -479,70 +467,79 @@ vector<vector<string>> groupAnagrams(vector<string>& strs) {
 //	}
 //
 //	return 0;
-//}
+// }
 
-
-///ÏÈ½éÉÜÒ»ÏÂºÍ¹şÏ£±íÏàËÆµÄsetµÄ»ù±¾ÓÃ·¨
-///setÊÇÊÇC++±ê×¼¿âÖĞµÄÒ»ÖÖÎŞĞò¼¯ºÏ£¬ÓÃÓÚ´æ´¢Î¨Ò»µÄÔªËØ
-void unorder_set_basic() {
+/// å…ˆä»‹ç»ä¸€ä¸‹å’Œå“ˆå¸Œè¡¨ç›¸ä¼¼çš„setçš„åŸºæœ¬ç”¨æ³•
+/// setæ˜¯æ˜¯C++æ ‡å‡†åº“ä¸­çš„ä¸€ç§æ— åºé›†åˆï¼Œç”¨äºå­˜å‚¨å”¯ä¸€çš„å…ƒç´ 
+void unorder_set_basic()
+{
 
 	unordered_set<int> myHashSet;
 
-	// ²åÈëÔªËØ
+	// æ’å…¥å…ƒç´ 
 	myHashSet.insert(10);
 	myHashSet.insert(5);
 	myHashSet.insert(8);
 	myHashSet.insert(12);
 
-	// ²éÕÒÔªËØ²¢Êä³ö
+	// æŸ¥æ‰¾å…ƒç´ å¹¶è¾“å‡º
 	int searchValue = 8;
 	std::unordered_set<int>::iterator it = myHashSet.find(searchValue);
-	if (it != myHashSet.end()) {
-		std::cout << "ÔªËØ " << searchValue << " ´æÔÚÓÚ¼¯ºÏÖĞ¡£" << std::endl;
+	if (it != myHashSet.end())
+	{
+		std::cout << "å…ƒç´  " << searchValue << " å­˜åœ¨äºé›†åˆä¸­ã€‚" << std::endl;
 	}
-	else {
-		std::cout << "ÔªËØ " << searchValue << " ²»´æÔÚÓÚ¼¯ºÏÖĞ¡£" << std::endl;
+	else
+	{
+		std::cout << "å…ƒç´  " << searchValue << " ä¸å­˜åœ¨äºé›†åˆä¸­ã€‚" << std::endl;
 	}
 
-	// É¾³ıÔªËØ
+	// åˆ é™¤å…ƒç´ 
 	myHashSet.erase(5);
 
-	// ±éÀú¼¯ºÏ²¢Êä³ö
-	std::cout << "¼¯ºÏÖĞµÄÔªËØ£º";
-	for (const int& value : myHashSet) {
+	// éå†é›†åˆå¹¶è¾“å‡º
+	std::cout << "é›†åˆä¸­çš„å…ƒç´ ï¼š";
+	for (const int &value : myHashSet)
+	{
 		std::cout << value << " ";
 	}
 	std::cout << std::endl;
 
-	// ¼ì²é¼¯ºÏÊÇ·ñÎª¿Õ
-	if (myHashSet.empty()) {
-		std::cout << "¼¯ºÏÎª¿Õ¡£" << std::endl;
+	// æ£€æŸ¥é›†åˆæ˜¯å¦ä¸ºç©º
+	if (myHashSet.empty())
+	{
+		std::cout << "é›†åˆä¸ºç©ºã€‚" << std::endl;
 	}
-	else {
-		std::cout << "¼¯ºÏ²»Îª¿Õ£¬´óĞ¡Îª£º" << myHashSet.size() << std::endl;
+	else
+	{
+		std::cout << "é›†åˆä¸ä¸ºç©ºï¼Œå¤§å°ä¸ºï¼š" << myHashSet.size() << std::endl;
 	}
 
-	// Ê¹ÓÃ count ¼ì²éÔªËØÊÇ·ñ´æÔÚ
+	// ä½¿ç”¨ count æ£€æŸ¥å…ƒç´ æ˜¯å¦å­˜åœ¨
 	int elementToCheck = 3;
-	if (myHashSet.count(elementToCheck) == 1) {
-		std::cout << elementToCheck << " ´æÔÚÓÚ¼¯ºÏÖĞ¡£" << std::endl;
+	if (myHashSet.count(elementToCheck) == 1)
+	{
+		std::cout << elementToCheck << " å­˜åœ¨äºé›†åˆä¸­ã€‚" << std::endl;
 	}
-	else {
-		std::cout << elementToCheck << " ²»´æÔÚÓÚ¼¯ºÏÖĞ¡£" << std::endl;
+	else
+	{
+		std::cout << elementToCheck << " ä¸å­˜åœ¨äºé›†åˆä¸­ã€‚" << std::endl;
 	}
-
-
 }
 
 /// <summary>
-/// ×î³¤Á¬ĞøĞòÁĞ
+/// æœ€é•¿è¿ç»­åºåˆ—
 /// </summary>
-int longestConsecutive(vector<int>& nums) {
-	unordered_set<int>set;
-	for (auto num : nums) set.insert(num);
+int longestConsecutive(vector<int> &nums)
+{
+	unordered_set<int> set;
+	for (auto num : nums)
+		set.insert(num);
 	int curlen = 1, maxlen = 0;
-	for (auto& num : nums) {
-		if (set.count(num - 1) == 0) {
+	for (auto &num : nums)
+	{
+		if (set.count(num - 1) == 0)
+		{
 			int cur = num;
 			curlen = 1;
 			while (set.count(cur + 1))
@@ -554,102 +551,117 @@ int longestConsecutive(vector<int>& nums) {
 		maxlen = max(curlen, maxlen);
 	}
 	return maxlen;
-
 }
 
-
-bool isValid(string s) {
+bool isValid(string s)
+{
 	std::stack<char> stack;
-	std::unordered_map<char, char> mapping = { {')', '('}, {']', '['}, {'}', '{'} };
-	for (auto c : s) {
+	std::unordered_map<char, char> mapping = {{')', '('}, {']', '['}, {'}', '{'}};
+	for (auto c : s)
+	{
 		if (mapping.count(c))
 		{
 			char topElement = stack.empty() ? '#' : stack.top();
-			if (topElement != mapping[c]) {
+			if (topElement != mapping[c])
+			{
 				return false;
 			}
 			stack.pop();
 		}
 		else
 			stack.push(c);
-	
 	}
 	return stack.empty();
-		
-
 }
 
-
-bool isValid1(string s) {
-	if (s.size() % 2 == 1) return false;
+bool isValid1(string s)
+{
+	if (s.size() % 2 == 1)
+		return false;
 	stack<char> st;
-	for (int i = 0; i < s.size(); i++) {
-		if (s[i] == '(') st.push(')');
-		else if (s[i] == '{') st.push('}');
-		else if (s[i] == '[') st.push(']');
-		else if (st.empty() || st.top() != s[i]) return false;
-		else st.pop();
+	for (int i = 0; i < s.size(); i++)
+	{
+		if (s[i] == '(')
+			st.push(')');
+		else if (s[i] == '{')
+			st.push('}');
+		else if (s[i] == '[')
+			st.push(']');
+		else if (st.empty() || st.top() != s[i])
+			return false;
+		else
+			st.pop();
 	}
 	return st.empty();
 }
 
-//int main() {
+// int main() {
 //	string s = "{}[]()";
 //	int ans = isValid1(s);
 //	return 0;
-//}
+// }
 
 /// <summary>
-/// ÓĞĞ§µÄ×ÖÄ¸ÒìÎ»´Ê
+/// æœ‰æ•ˆçš„å­—æ¯å¼‚ä½è¯
 /// </summary>
-bool isAnagram(string s, string t) {
-	unordered_map<char, int>map;
+bool isAnagram(string s, string t)
+{
+	unordered_map<char, int> map;
 
-	for (auto a : s) map[a]++;
+	for (auto a : s)
+		map[a]++;
 
-	for (auto a : t) {
-		if (map[a] > 0) map[a]--;
-		else return false;
-	}
-	for (auto it = map.begin();it!=map.end();it++)
+	for (auto a : t)
 	{
-		if (it->second > 0) return false;
+		if (map[a] > 0)
+			map[a]--;
+		else
+			return false;
+	}
+	for (auto it = map.begin(); it != map.end(); it++)
+	{
+		if (it->second > 0)
+			return false;
 	}
 	return true;
 }
 
-
-
-vector<int> findAnagrams(string s, string p) {
+vector<int> findAnagrams(string s, string p)
+{
 	int sLen = s.size(), pLen = p.size();
 
-	if (sLen < pLen) {
+	if (sLen < pLen)
+	{
 		return vector<int>();
 	}
 
 	vector<int> ans;
 	vector<int> sCount(26);
 	vector<int> pCount(26);
-	for (int i = 0; i < pLen; ++i) {
+	for (int i = 0; i < pLen; ++i)
+	{
 		++sCount[s[i] - 'a'];
 		++pCount[p[i] - 'a'];
 	}
 
-	if (sCount == pCount) {
+	if (sCount == pCount)
+	{
 		ans.emplace_back(0);
 	}
-	for (int i = 0; i < sLen - pLen; ++i) {
+	for (int i = 0; i < sLen - pLen; ++i)
+	{
 		--sCount[s[i] - 'a'];
 		++sCount[s[i + pLen] - 'a'];
 
-		if (sCount == pCount) {
+		if (sCount == pCount)
+		{
 			ans.emplace_back(i + 1);
 		}
 	}
 
 	return ans;
 }
-//int main() {
+// int main() {
 //	std::string s = "abab";
 //	std::string p = "ab";
 //
@@ -662,9 +674,10 @@ vector<int> findAnagrams(string s, string p) {
 //	std::cout << std::endl;
 //
 //	return 0;
-//}
+// }
 
-int getSum(int n) {
+int getSum(int n)
+{
 	int ans = 0;
 	while (n)
 	{
@@ -673,51 +686,57 @@ int getSum(int n) {
 		n /= 10;
 	}
 	return ans;
-
 }
 
 /// <summary>
-/// ¿ªĞÄÊı
+/// å¼€å¿ƒæ•°
 /// </summary>
-bool isHappy(int n) {
-	
-	unordered_set<int>set;
+bool isHappy(int n)
+{
+
+	unordered_set<int> set;
 	int ans = 0;
 	while (1)
 	{
 		ans = getSum(n);
-		if (ans == 1)return true;
-		else if (set.count(ans) > 0) return false;
-		else set.insert(ans);
+		if (ans == 1)
+			return true;
+		else if (set.count(ans) > 0)
+			return false;
+		else
+			set.insert(ans);
 		n = ans;
 	}
-	
 }
 
 /// <summary>
-/// Êê½ğĞÅ
+/// èµé‡‘ä¿¡
 /// </summary>
-bool canConstruct(string ransomNote, string magazine) {
+bool canConstruct(string ransomNote, string magazine)
+{
 	int map[26] = {0};
-	for (auto m : magazine) map[m - 'a']++;
-	for (auto r : ransomNote) {
-		if (map[r - 'a'] > 0) map[r - 'a']--;
-		else	return false;
+	for (auto m : magazine)
+		map[m - 'a']++;
+	for (auto r : ransomNote)
+	{
+		if (map[r - 'a'] > 0)
+			map[r - 'a']--;
+		else
+			return false;
 	}
 	return true;
 }
 
-//int main() {
+// int main() {
 //	string ransomNote = "aab";
 //	string magazine = "aabb";
 //
 //	if (canConstruct(ransomNote, magazine)) {
-//		cout << "¿ÉÒÔ¹¹³ÉÊê½ğĞÅ" << endl;
+//		cout << "å¯ä»¥æ„æˆèµé‡‘ä¿¡" << endl;
 //	}
 //	else {
-//		cout << "ÎŞ·¨¹¹³ÉÊê½ğĞÅ" << endl;
+//		cout << "æ— æ³•æ„æˆèµé‡‘ä¿¡" << endl;
 //	}
 //
 //	return 0;
-//}
-
+// }

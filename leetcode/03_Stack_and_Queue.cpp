@@ -1,43 +1,40 @@
-#include<iostream>
-#include<vector>
-#include<algorithm>
-#include<unordered_map>
-#include<stack>
-#include<queue>
-#include<string>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
+#include <stack>
+#include <queue>
+#include <string>
 using namespace std;
 
-
-
 /// <summary>
-/// ×Ö·û´®½âÂë
+/// å­—ç¬¦ä¸²è§£ç 
 /// </summary>
-/// Éæ¼°µ½Åä¶ÔµÄ[,]»òÕß(,)µÄÇé¿ö£¬Ò»°ãÓÃÕ»À´´¢´æÕÒµ½ÏàÓ¦µÄÅä¶Ô
-string decodeString(string s) {
+/// æ¶‰åŠåˆ°é…å¯¹çš„[,]æˆ–è€…(,)çš„æƒ…å†µï¼Œä¸€èˆ¬ç”¨æ ˆæ¥å‚¨å­˜æ‰¾åˆ°ç›¸åº”çš„é…å¯¹
+string decodeString(string s)
+{
 	int n = s.size();
 	string ans;
-	stack<char>check;
+	stack<char> check;
 	for (int i = 0; i < n; i++)
 	{
 		if (s[i] >= 'a' && s[i] <= 'z')
 			ans.push_back(s[i]);
-		else if(s[i]=='[')
+		else if (s[i] == '[')
 		{
 			check.push(s[i]);
-
 		}
-
 	}
 	return ans;
 }
 
-
 /// <summary>
-/// É¾³ı×Ö·û´®ÖĞµÄËùÓĞÏàÁÚÖØ¸´Ïî
+/// åˆ é™¤å­—ç¬¦ä¸²ä¸­çš„æ‰€æœ‰ç›¸é‚»é‡å¤é¡¹
 /// </summary>
-/// Õâ¸öÌâÄ¿ÉñÆæÖ®´¦ÔÚÓÚ£¬Èç¹ûÖ±½ÓÊ¹ÓÃÕ»µÄ»°£¬Êä³öµÄÊÇ·´ĞòµÄ£¬»¹ĞèÒª¼ÌĞø´¦ÀíÒ»ÏÂ¡£È»ºó
-/// ÎÒÃÇ¿ÉÒÔÖ±½Ó°Ñ×Ö·û´®µ±³ÉÒ»¸öÕ»£¬ÒòÎª×Ö·û´®±¾À´¾ÍÓĞÈëÕ»ºÍ³öÕ»ÀàËÆµÄ½Ó¿Ú£¬ÕâÑùµÄ»°Ö±½ÓÄÃÏÂ£¡
-string removeDuplicates(string s) {
+/// è¿™ä¸ªé¢˜ç›®ç¥å¥‡ä¹‹å¤„åœ¨äºï¼Œå¦‚æœç›´æ¥ä½¿ç”¨æ ˆçš„è¯ï¼Œè¾“å‡ºçš„æ˜¯ååºçš„ï¼Œè¿˜éœ€è¦ç»§ç»­å¤„ç†ä¸€ä¸‹ã€‚ç„¶å
+/// æˆ‘ä»¬å¯ä»¥ç›´æ¥æŠŠå­—ç¬¦ä¸²å½“æˆä¸€ä¸ªæ ˆï¼Œå› ä¸ºå­—ç¬¦ä¸²æœ¬æ¥å°±æœ‰å…¥æ ˆå’Œå‡ºæ ˆç±»ä¼¼çš„æ¥å£ï¼Œè¿™æ ·çš„è¯ç›´æ¥æ‹¿ä¸‹ï¼
+string removeDuplicates(string s)
+{
 	string st;
 	int n = s.size();
 	for (int i = 0; i < n; i++)
@@ -46,64 +43,70 @@ string removeDuplicates(string s) {
 		{
 			st.pop_back();
 		}
-		else st += s[i];
+		else
+			st += s[i];
 	}
 	return st;
 }
-//int main() {
+// int main() {
 //	string S = "abbaca";
 //	cout << "Original string: " << S << endl;
 //	cout << "String after removing duplicates: " << removeDuplicates(S) << endl;
 //
 //	return 0;
-//}
-
+// }
 
 /// <summary>
-/// ÓÃÕ»ÊµÏÖ¶ÓÁĞ
+/// ç”¨æ ˆå®ç°é˜Ÿåˆ—
 /// </summary>
-class MyQueue {
+class MyQueue
+{
 public:
-	MyQueue() {
-
+	MyQueue()
+	{
 	}
 
-	void push(int x) {
+	void push(int x)
+	{
 		stackin.push(x);
 	}
 
-	int pop() {
+	int pop()
+	{
 		if (stackout.empty())
 		{
 			while (!stackin.empty())
-			{	
+			{
 				stackout.push(stackin.top());
 				stackin.pop();
 			}
-			
 		}
 		int ans = stackout.top();
 		stackout.pop();
 		return ans;
 	}
 
-	int peek() {
+	int peek()
+	{
 		int ans = this->pop();
 		stackout.push(ans);
 		return ans;
 	}
 
-	bool empty() {
-		if (stackin.empty() && stackout.empty()) return true;
-		else return false;
+	bool empty()
+	{
+		if (stackin.empty() && stackout.empty())
+			return true;
+		else
+			return false;
 	}
+
 public:
-	stack<int>stackin;
-	stack<int>stackout;
+	stack<int> stackin;
+	stack<int> stackout;
 };
 
-
-//int main() {
+// int main() {
 //	MyQueue* obj = new MyQueue();
 //	obj->push(1);
 //	obj->push(2);
@@ -114,125 +117,147 @@ public:
 //	//cout << param_1 << endl;
 //	cout << param_2 << endl;
 //	return 0;
-//}
-
+// }
 
 /// <summary>
-/// ÓÃ¶ÓÁĞÊµÏÖÕ»
+/// ç”¨é˜Ÿåˆ—å®ç°æ ˆ
 /// </summary>
-class MyStack {
+class MyStack
+{
 public:
 	queue<int> que;
 	/** Initialize your data structure here. */
-	MyStack() {
-
+	MyStack()
+	{
 	}
 	/** Push element x onto stack. */
-	void push(int x) {
+	void push(int x)
+	{
 		que.push(x);
 	}
 	/** Removes the element on top of the stack and returns that element. */
-	int pop() {
+	int pop()
+	{
 		int size = que.size();
 		size--;
-		while (size--) { // ½«¶ÓÁĞÍ·²¿µÄÔªËØ£¨³ıÁË×îºóÒ»¸öÔªËØÍâ£© ÖØĞÂÌí¼Óµ½¶ÓÁĞÎ²²¿
+		while (size--)
+		{ // å°†é˜Ÿåˆ—å¤´éƒ¨çš„å…ƒç´ ï¼ˆé™¤äº†æœ€åä¸€ä¸ªå…ƒç´ å¤–ï¼‰ é‡æ–°æ·»åŠ åˆ°é˜Ÿåˆ—å°¾éƒ¨
 			que.push(que.front());
 			que.pop();
 		}
-		int result = que.front(); // ´ËÊ±µ¯³öµÄÔªËØË³Ğò¾ÍÊÇÕ»µÄË³ĞòÁË
+		int result = que.front(); // æ­¤æ—¶å¼¹å‡ºçš„å…ƒç´ é¡ºåºå°±æ˜¯æ ˆçš„é¡ºåºäº†
 		que.pop();
 		return result;
 	}
 
 	/** Get the top element. */
-	int top() {
+	int top()
+	{
 		return que.back();
 	}
 
 	/** Returns whether the stack is empty. */
-	bool empty() {
+	bool empty()
+	{
 		return que.empty();
 	}
 };
 
-
 /// <summary>
-/// ¼ì²éÌæ»»ºóµÄ´ÊÊÇ·ñÓĞĞ§
+/// æ£€æŸ¥æ›¿æ¢åçš„è¯æ˜¯å¦æœ‰æ•ˆ
 /// </summary>
-/// 
-bool isValid11(string s) {
-	stack<char>st;
+///
+bool isValid11(string s)
+{
+	stack<char> st;
 	for (int i = 0; i < s.size(); i++)
-	{	
-		if (!st.empty()) {
-			if (st.top() == 'b' && s[i] == 'c') {
+	{
+		if (!st.empty())
+		{
+			if (st.top() == 'b' && s[i] == 'c')
+			{
 				st.pop();
-				if (!st.empty()) {
-					if (st.top() == 'a') st.pop();
-					else return false;
+				if (!st.empty())
+				{
+					if (st.top() == 'a')
+						st.pop();
+					else
+						return false;
 				}
-				else return false;
+				else
+					return false;
 			}
-			else st.push(s[i]);
+			else
+				st.push(s[i]);
 		}
-		else st.push(s[i]);
+		else
+			st.push(s[i]);
 	}
 	return st.empty();
 }
 
-//int main() {
+// int main() {
 //	string s = "babcc";
 //	cout << "Is \"" << s << "\" valid? " << (isValid11(s) ? "Yes" : "No") << endl;
 //
 //	return 0;
-//}
+// }
 
 /// <summary>
-/// Äæ²¨À¼±í´ïÊ½ÇóÖµ
+/// é€†æ³¢å…°è¡¨è¾¾å¼æ±‚å€¼
 /// </summary>
-int evalRPN(vector<string>& tokens) {
-	stack<int>stk;
-	
-	for (const string& token : tokens)
-	{
-		if (token == "+" || token == "-" || token == "*" || token == "/") {
-			int num2 = stk.top(); stk.pop();
-			int num1 = stk.top(); stk.pop();
-			if (token == "+") stk.push(num1 + num2);
-			else if (token == "-") stk.push(num1 - num2);
-			else if (token == "*") stk.push(num1 * num2);
-			else if (token == "/") stk.push(num1 / num2);
-		}
-		else stk.push(stoi(token));
+int evalRPN(vector<string> &tokens)
+{
+	stack<int> stk;
 
+	for (const string &token : tokens)
+	{
+		if (token == "+" || token == "-" || token == "*" || token == "/")
+		{
+			int num2 = stk.top();
+			stk.pop();
+			int num1 = stk.top();
+			stk.pop();
+			if (token == "+")
+				stk.push(num1 + num2);
+			else if (token == "-")
+				stk.push(num1 - num2);
+			else if (token == "*")
+				stk.push(num1 * num2);
+			else if (token == "/")
+				stk.push(num1 / num2);
+		}
+		else
+			stk.push(stoi(token));
 	}
 	return stk.top();
 }
 
-//int main() {
+// int main() {
 //	vector<string> tokens = { "2", "1", "+", "3", "*" };
 //	cout << "Result: " << evalRPN(tokens) << endl;
 //
 //	return 0;
-//}
+// }
 
-
-
-/// ½éÉÜ¼¸¸öµ¥µ÷Õ»µÄÌâÄ¿
-/// 
-/// 
-/// 
+/// ä»‹ç»å‡ ä¸ªå•è°ƒæ ˆçš„é¢˜ç›®
+///
+///
+///
 /// <summary>
-/// 1.¹ÉÆ±¼Û¸ñ¿ç¶È
+/// 1.è‚¡ç¥¨ä»·æ ¼è·¨åº¦
 /// </summary>
-class StockSpanner {
+class StockSpanner
+{
 public:
-	StockSpanner() {
+	StockSpanner()
+	{
 		this->stk.emplace(-1, INT_MAX);
 		this->idx = -1;
 	}
 
-	int next(int price) {
+	int next(int price)
+	{
 		idx++;
 		while (price >= stk.top().second)
 		{
@@ -242,8 +267,6 @@ public:
 		stk.emplace(idx, price);
 
 		return m;
-
-
 	}
 
 private:
@@ -251,27 +274,26 @@ private:
 	int idx;
 };
 
-
-//int main() {
-//    StockSpanner spanner;
-//    std::vector<int> prices = { 100, 80, 60, 70, 60, 75, 85 };
+// int main() {
+//     StockSpanner spanner;
+//     std::vector<int> prices = { 100, 80, 60, 70, 60, 75, 85 };
 //
-//    for (int price : prices) {
-//        int span = spanner.next(price);
-//        std::cout << span << " ";
-//    }
+//     for (int price : prices) {
+//         int span = spanner.next(price);
+//         std::cout << span << " ";
+//     }
 //
-//    return 0;
-//}
-
+//     return 0;
+// }
 
 /// <summary>
-/// 2.Ã¿ÈÕÎÂ¶È
+/// 2.æ¯æ—¥æ¸©åº¦
 /// </summary>
-vector<int> dailyTemperatures(vector<int>& temperatures) {
+vector<int> dailyTemperatures(vector<int> &temperatures)
+{
 	int n = temperatures.size();
-	stack<int>st;
-	vector<int>ans(n, 0);
+	stack<int> st;
+	vector<int> ans(n, 0);
 	for (int i = 0; i < n; i++)
 	{
 		while (!st.empty() && temperatures[i] > temperatures[st.top()])
@@ -279,24 +301,21 @@ vector<int> dailyTemperatures(vector<int>& temperatures) {
 			int num = i - st.top();
 			ans[st.top()] = num;
 			st.pop();
-
 		}
 		st.push(i);
 	}
 	return ans;
 }
 
-
-
-
 /// <summary>
-/// ÏÂÒ»¸ö¸ü´óÔªËØ1
+/// ä¸‹ä¸€ä¸ªæ›´å¤§å…ƒç´ 1
 /// </summary>
-/// µ¥µ÷Õ»¼ÓÉÏ¹şÏ£±í
-vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-	stack<int>st;
-	vector<int>ans;
-	unordered_map<int, int>map;
+/// å•è°ƒæ ˆåŠ ä¸Šå“ˆå¸Œè¡¨
+vector<int> nextGreaterElement(vector<int> &nums1, vector<int> &nums2)
+{
+	stack<int> st;
+	vector<int> ans;
+	unordered_map<int, int> map;
 	int n = nums2.size();
 	for (int i = 0; i < n; i++)
 	{
@@ -307,27 +326,30 @@ vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
 		}
 		st.push(i);
 	}
-	//´¦ÀíÕ»ÖĞÊ£ÓàµÄÔªËØ
-	while (!st.empty()) {
-		map[nums2[st.top()]] = -1; // Õ»ÖĞÊ£ÓàÔªËØÃ»ÓĞÏÂÒ»¸ö¸ü´óÔªËØ
+	// å¤„ç†æ ˆä¸­å‰©ä½™çš„å…ƒç´ 
+	while (!st.empty())
+	{
+		map[nums2[st.top()]] = -1; // æ ˆä¸­å‰©ä½™å…ƒç´ æ²¡æœ‰ä¸‹ä¸€ä¸ªæ›´å¤§å…ƒç´ 
 		st.pop();
 	}
-	for (auto num : nums1) {
+	for (auto num : nums1)
+	{
 		ans.push_back(map[num]);
 	}
 
 	return ans;
 }
 /// <summary>
-/// ÏÂÒ»¸ö¸ü´óÔªËØ2
+/// ä¸‹ä¸€ä¸ªæ›´å¤§å…ƒç´ 2
 /// </summary>
-/// Õâ¸öºÍÉÏÃæµÄ²»Í¬Ö®´¦ÔÚÓÚ£¬±ä³ÉÑ­»·Êı×éÁË£¬¶øÇÒ²»ĞèÒª¹şÏ£Ó³Éä£¬¸ü¼òµ¥ÁËºÃÏñ
-/// 
-vector<int> nextGreaterElements2(vector<int>& nums) {
+/// è¿™ä¸ªå’Œä¸Šé¢çš„ä¸åŒä¹‹å¤„åœ¨äºï¼Œå˜æˆå¾ªç¯æ•°ç»„äº†ï¼Œè€Œä¸”ä¸éœ€è¦å“ˆå¸Œæ˜ å°„ï¼Œæ›´ç®€å•äº†å¥½åƒ
+///
+vector<int> nextGreaterElements2(vector<int> &nums)
+{
 	int n = nums.size();
-	vector<int>ans(n, -1);
+	vector<int> ans(n, -1);
 
-	stack<int>st;
+	stack<int> st;
 	for (int i = 0; i < 2 * n; i++)
 	{
 		int index = i % n;
@@ -341,8 +363,7 @@ vector<int> nextGreaterElements2(vector<int>& nums) {
 	return ans;
 }
 
-
-//int main() {
+// int main() {
 //	vector<int>nums1 = { 4,1,2 };
 //	vector<int>  nums2 = { 1,3,4,2 };
 //	vector<int>
@@ -353,21 +374,21 @@ vector<int> nextGreaterElements2(vector<int>& nums) {
 //	}
 //
 //
-//}
+// }
 
 /// <summary>
-/// 3.½ÓÓêË®
+/// 3.æ¥é›¨æ°´
 /// </summary>
-/// ÕâµÀÌâµÄ¹Ø¼üÊÇ£¬¼ÈÒªÕÒ×ó±ßµÚÒ»¸ö±Èµ±Ç°ÔªËØ´óµÄ£¬ÓÖÒªÕÒÓÒ±ßµÄ£¬ÎÒ¾õµÃ¿ÉÒÔ½¨Á¢Á½¸öÊı×é£¬·Ö±ğ±íÊ¾µ±Ç°ÔªËØÏÂÒ»¸ö¸ü´óÔªËØµÄÎ»ÖÃ¡£
-/// µÃµ½ÕâÁ½¸öÊı×éÖ®ºó£¬¼ÓÉÏÒ»µãĞ¡Ğ¡µÄÅĞ¶Ï£¬±ã¿ÉÒÔÇáÒ×µÃµ½Ã¿¸öÔªËØÄÜ½Óµ½Ë®µÄÁ¿ÁË¡£
-/// ÎÒÉÏÃæµÄË¼Â·ÓĞĞ©ÎÊÌâ£ºÎÒÒªÕÒµÄ²»ÊÇµÚÒ»¸ö±Èµ±Ç°´óµÄÔªËØ£¬¶øÊÇµ±Ç°ÔªËØ×ó±ß»òÕßÓÒ±ß×î´óµÄÔªËØ²ÅĞĞ¡£ĞèÒª¸Ä½øÕâ¸öÎÊÌâ.
-/// ¹ûÈ»£¬¸Ä½øÖ®ºó£¬ÄÃÏÂÁË£¡£¡£¡µ«ÊÇ¿´ÁË¿´¹Ù·½Ìâ½â£¬ÓÃµ½µ¥µ÷Õ»£¬»¹¸ü¼òµ¥ÁË¡£ÎÒ°Ñ¹Ù·½½â·¨ÁĞÔÚÏÂÃæ
-//int trap(vector<int>& height) {
+/// è¿™é“é¢˜çš„å…³é”®æ˜¯ï¼Œæ—¢è¦æ‰¾å·¦è¾¹ç¬¬ä¸€ä¸ªæ¯”å½“å‰å…ƒç´ å¤§çš„ï¼Œåˆè¦æ‰¾å³è¾¹çš„ï¼Œæˆ‘è§‰å¾—å¯ä»¥å»ºç«‹ä¸¤ä¸ªæ•°ç»„ï¼Œåˆ†åˆ«è¡¨ç¤ºå½“å‰å…ƒç´ ä¸‹ä¸€ä¸ªæ›´å¤§å…ƒç´ çš„ä½ç½®ã€‚
+/// å¾—åˆ°è¿™ä¸¤ä¸ªæ•°ç»„ä¹‹åï¼ŒåŠ ä¸Šä¸€ç‚¹å°å°çš„åˆ¤æ–­ï¼Œä¾¿å¯ä»¥è½»æ˜“å¾—åˆ°æ¯ä¸ªå…ƒç´ èƒ½æ¥åˆ°æ°´çš„é‡äº†ã€‚
+/// æˆ‘ä¸Šé¢çš„æ€è·¯æœ‰äº›é—®é¢˜ï¼šæˆ‘è¦æ‰¾çš„ä¸æ˜¯ç¬¬ä¸€ä¸ªæ¯”å½“å‰å¤§çš„å…ƒç´ ï¼Œè€Œæ˜¯å½“å‰å…ƒç´ å·¦è¾¹æˆ–è€…å³è¾¹æœ€å¤§çš„å…ƒç´ æ‰è¡Œã€‚éœ€è¦æ”¹è¿›è¿™ä¸ªé—®é¢˜.
+/// æœç„¶ï¼Œæ”¹è¿›ä¹‹åï¼Œæ‹¿ä¸‹äº†ï¼ï¼ï¼ä½†æ˜¯çœ‹äº†çœ‹å®˜æ–¹é¢˜è§£ï¼Œç”¨åˆ°å•è°ƒæ ˆï¼Œè¿˜æ›´ç®€å•äº†ã€‚æˆ‘æŠŠå®˜æ–¹è§£æ³•åˆ—åœ¨ä¸‹é¢
+// int trap(vector<int>& height) {
 //	int n = height.size();
 //	vector<int>rmax(n, -1);
 //	vector<int>lmax(n, -1);
 //	stack<int>s;
-//	
+//
 //
 //	int maxRight = height[n - 1];
 //	for (int i = n - 2; i >= 0; --i) {
@@ -389,13 +410,13 @@ vector<int> nextGreaterElements2(vector<int>& nums) {
 //	}
 //
 //	//for (int i = 0; i < n; i++)
-//	//{	
+//	//{
 //	//	while (!s.empty() && height[i] > height[s.top()]) {
 //	//		rmax[s.top()] = height[i];
 //	//		s.pop();
 //	//	}
 //	//	s.push(i);
-//	//	
+//	//
 //	//}
 //	//for (int i = n-1; i >=0; i--)
 //	//{
@@ -424,21 +445,24 @@ vector<int> nextGreaterElements2(vector<int>& nums) {
 //
 //	}
 //	return sum;
-//}
+// }
 
 /// <summary>
-/// ÎÒ¿´Ã÷°×ÁË,ÏÈÇó³öÓÒ±ßµÚÒ»¸ö¸ü´óµÄÔªËØ£¬Í¬Ê±¸ÃÕ»¶¥ÔªËØµÄÏÂÒ»¸öÔªËØ¾ÍÊÇ×ó±ß¸ü´óÔªËØ£¬È»ºó°´ĞĞ(ºáÏò)Çó½â£¬·Ö±ğÇó³ö¸ßºÍ¿í¡£ÎÒÉÏÃæµÄÊÇ°´ÕÕÁĞÇó½âµÄ
+/// æˆ‘çœ‹æ˜ç™½äº†,å…ˆæ±‚å‡ºå³è¾¹ç¬¬ä¸€ä¸ªæ›´å¤§çš„å…ƒç´ ï¼ŒåŒæ—¶è¯¥æ ˆé¡¶å…ƒç´ çš„ä¸‹ä¸€ä¸ªå…ƒç´ å°±æ˜¯å·¦è¾¹æ›´å¤§å…ƒç´ ï¼Œç„¶åæŒ‰è¡Œ(æ¨ªå‘)æ±‚è§£ï¼Œåˆ†åˆ«æ±‚å‡ºé«˜å’Œå®½ã€‚æˆ‘ä¸Šé¢çš„æ˜¯æŒ‰ç…§åˆ—æ±‚è§£çš„
 /// </summary>
-int trap(vector<int>& height) {
+int trap(vector<int> &height)
+{
 	stack<int> st;
 	int sum = 0;
 	int n = height.size();
 	for (int i = 0; i < n; i++)
 	{
-		while (!st.empty() && height[i] > height[st.top()]) {
+		while (!st.empty() && height[i] > height[st.top()])
+		{
 			int mid = st.top();
 			st.pop();
-			if (!st.empty()) {
+			if (!st.empty())
+			{
 				int h = min(height[i], height[st.top()]) - height[mid];
 				int w = i - st.top() - 1;
 				sum += h * w;
@@ -449,30 +473,31 @@ int trap(vector<int>& height) {
 	return sum;
 }
 
-//int main() {
+// int main() {
 //	vector<int>nums = { 4,2,0,3,2,5 };
 //	int a = trap(nums);
 //	cout <<endl<< a;
 //	return 0;
-//}
-
+// }
 
 /// <summary>
-/// Öù×´Í¼ÖĞ×î´óµÄ¾ØĞÎ
+/// æŸ±çŠ¶å›¾ä¸­æœ€å¤§çš„çŸ©å½¢
 /// </summary>
-/// ÕâµÀÌâºÍ½ÓÓêË®Ì«ÏñÁË£¬Ò»¸öÊÇÇóÁ½±ß¸ü´óÔªËØ£¬Ò»¸öÇóÁ½±ß¸üĞ¡ÔªËØ¡£µ«ÊÇĞèÒª×¢ÒâµÄÊÇ
-int largestRectangleArea(vector<int>& heights) {
+/// è¿™é“é¢˜å’Œæ¥é›¨æ°´å¤ªåƒäº†ï¼Œä¸€ä¸ªæ˜¯æ±‚ä¸¤è¾¹æ›´å¤§å…ƒç´ ï¼Œä¸€ä¸ªæ±‚ä¸¤è¾¹æ›´å°å…ƒç´ ã€‚ä½†æ˜¯éœ€è¦æ³¨æ„çš„æ˜¯
+int largestRectangleArea(vector<int> &heights)
+{
 
-	stack<int>s;
+	stack<int> s;
 	int sum = 0;
-	//Ê×Î²¶¼¼ÓÉÏ0µÄ»°£¬Ã¿¸öÔªËØÁ½±ß¶¼ÓĞ¸üĞ¡ÔªËØÁË
+	// é¦–å°¾éƒ½åŠ ä¸Š0çš„è¯ï¼Œæ¯ä¸ªå…ƒç´ ä¸¤è¾¹éƒ½æœ‰æ›´å°å…ƒç´ äº†
 
-	heights.insert(heights.begin(), 0); // Êı×éÍ·²¿¼ÓÈëÔªËØ0
-	heights.push_back(0); // Êı×éÎ²²¿¼ÓÈëÔªËØ0
+	heights.insert(heights.begin(), 0); // æ•°ç»„å¤´éƒ¨åŠ å…¥å…ƒç´ 0
+	heights.push_back(0);				// æ•°ç»„å°¾éƒ¨åŠ å…¥å…ƒç´ 0
 	int n = heights.size();
 	for (int i = 0; i < n; i++)
 	{
-		while (!s.empty() && heights[i] < heights[s.top()]) {
+		while (!s.empty() && heights[i] < heights[s.top()])
+		{
 			int mid = s.top();
 			s.pop();
 			sum = max(sum, (heights[mid] * (i - s.top() - 1)));
@@ -481,168 +506,181 @@ int largestRectangleArea(vector<int>& heights) {
 	}
 	return sum;
 }
-//int main() {
+// int main() {
 //	vector<int>nums = { 2,1,5,6,2,3 };
 //	int a = largestRectangleArea(nums);
 //	cout <<endl<< a;
 //	return 0;
-//}
-
-
+// }
 
 /// <summary>
-/// ×îĞ¡Õ»
+/// æœ€å°æ ˆ
 /// </summary>
-class MinStack {
+class MinStack
+{
 public:
-	MinStack() {
+	MinStack()
+	{
 	}
 
-	// Ñ¹Õ»²Ù×÷£¬Í¬Ê±¸üĞÂ×îĞ¡Öµ
-	void push(int x) {
+	// å‹æ ˆæ“ä½œï¼ŒåŒæ—¶æ›´æ–°æœ€å°å€¼
+	void push(int x)
+	{
 		dataStack.push(x);
-		if (minStack.empty() || x <= minStack.top()) {
+		if (minStack.empty() || x <= minStack.top())
+		{
 			minStack.push(x);
 		}
 	}
 
-	// µ¯Õ»²Ù×÷£¬Í¬Ê±¸üĞÂ×îĞ¡Öµ
-	void pop() {
-		if (!dataStack.empty()) {
-			if (dataStack.top() == minStack.top()) {
+	// å¼¹æ ˆæ“ä½œï¼ŒåŒæ—¶æ›´æ–°æœ€å°å€¼
+	void pop()
+	{
+		if (!dataStack.empty())
+		{
+			if (dataStack.top() == minStack.top())
+			{
 				minStack.pop();
 			}
 			dataStack.pop();
 		}
 	}
 
-	// »ñÈ¡Õ»¶¥ÔªËØ
-	int top() {
+	// è·å–æ ˆé¡¶å…ƒç´ 
+	int top()
+	{
 		return dataStack.top();
 	}
 
-	// »ñÈ¡Õ»ÖĞ×îĞ¡ÔªËØ
-	int getMin() {
+	// è·å–æ ˆä¸­æœ€å°å…ƒç´ 
+	int getMin()
+	{
 		return minStack.top();
 	}
 
 private:
-	std::stack<int> dataStack; // ´æ´¢Êı¾İµÄÕ»
-	std::stack<int> minStack;  // ´æ´¢×îĞ¡ÖµµÄÕ»
+	std::stack<int> dataStack; // å­˜å‚¨æ•°æ®çš„æ ˆ
+	std::stack<int> minStack;  // å­˜å‚¨æœ€å°å€¼çš„æ ˆ
 };
 
-//int main() {
+// int main() {
 //	MinStack minStack;
 //
 //	minStack.push(-2);
 //	minStack.push(0);
 //	minStack.push(-3);
 //
-//	std::cout << "Õ»ÖĞ×îĞ¡ÔªËØÊÇ£º" << minStack.getMin() << std::endl; // Êä³ö -3
+//	std::cout << "æ ˆä¸­æœ€å°å…ƒç´ æ˜¯ï¼š" << minStack.getMin() << std::endl; // è¾“å‡º -3
 //
 //	minStack.pop();
 //
-//	std::cout << "Õ»ÖĞ¶¥²¿ÔªËØÊÇ£º" << minStack.top() << std::endl; // Êä³ö 0
-//	std::cout << "Õ»ÖĞ×îĞ¡ÔªËØÊÇ£º" << minStack.getMin() << std::endl; // Êä³ö -2
+//	std::cout << "æ ˆä¸­é¡¶éƒ¨å…ƒç´ æ˜¯ï¼š" << minStack.top() << std::endl; // è¾“å‡º 0
+//	std::cout << "æ ˆä¸­æœ€å°å…ƒç´ æ˜¯ï¼š" << minStack.getMin() << std::endl; // è¾“å‡º -2
 //
 //	return 0;
-//}
-
+// }
 
 /// <summary>
-/// ¶ÓÁĞÖĞ¿ÉÒÔ¿´µ½µÄÈËÊı
+/// é˜Ÿåˆ—ä¸­å¯ä»¥çœ‹åˆ°çš„äººæ•°
 /// </summary>
-vector<int> canSeePersonsCount(vector<int>& heights) {
+vector<int> canSeePersonsCount(vector<int> &heights)
+{
 	int n = heights.size();
 	stack<int> stack;
 	vector<int> res(n, 0);
-	//³ıÁË×îºóÒ»¸öÈË£¬ÆäÓàµÄÈË¶¼ÄÜ¿´µ½ÏàÁÚÓÒ±ßµÄÈË£¬Èç¹ûÓÒ±ßµÄÈË±È×Ô¼º°«£¬
-	// Ôò½øÈëÑ­»·£¬¼ÓÒ»£¬Èç¹ûÓÒ±ßµÄÈË±È×Ô¼º¸ß£¬ÄÇÃ´²»½øÈëÑ­»·£¬´ËÊ±Õ»²»Îª¿Õ£¬¼ÓÒ»
-	for (int i = n - 1; i >= 0; i--) {
+	// é™¤äº†æœ€åä¸€ä¸ªäººï¼Œå…¶ä½™çš„äººéƒ½èƒ½çœ‹åˆ°ç›¸é‚»å³è¾¹çš„äººï¼Œå¦‚æœå³è¾¹çš„äººæ¯”è‡ªå·±çŸ®ï¼Œ
+	//  åˆ™è¿›å…¥å¾ªç¯ï¼ŒåŠ ä¸€ï¼Œå¦‚æœå³è¾¹çš„äººæ¯”è‡ªå·±é«˜ï¼Œé‚£ä¹ˆä¸è¿›å…¥å¾ªç¯ï¼Œæ­¤æ—¶æ ˆä¸ä¸ºç©ºï¼ŒåŠ ä¸€
+	for (int i = n - 1; i >= 0; i--)
+	{
 		int h = heights[i];
-		while (!stack.empty() && stack.top() < h) {
+		while (!stack.empty() && stack.top() < h)
+		{
 			stack.pop();
 			res[i] += 1;
 		}
-		if (!stack.empty()) {
+		if (!stack.empty())
+		{
 			res[i] += 1;
 		}
 		stack.push(h);
 	}
 	return res;
-
 }
 
-vector<int> canSeePersonsCount1(vector<int>& heights) {
+vector<int> canSeePersonsCount1(vector<int> &heights)
+{
 	int n = heights.size();
-	stack<int>st;
-	vector<int>ans(n,0);
+	stack<int> st;
+	vector<int> ans(n, 0);
 	for (int i = 0; i < n; i++)
 	{
-		//Óöµ½ÏÂÒ»¸ö¸ü´óÔªËØ£¬Õı³£´¦Àí
-		while (!st.empty() && heights[i] > heights[st.top()]) {
+		// é‡åˆ°ä¸‹ä¸€ä¸ªæ›´å¤§å…ƒç´ ï¼Œæ­£å¸¸å¤„ç†
+		while (!st.empty() && heights[i] > heights[st.top()])
+		{
 
 			ans[st.top()] += 1;
 			st.pop();
 		}
-		//ÔÚµ±Ç°ÔªËØºÍÏÂÒ»¸ö¸ü´óÔªËØÖĞ¼äµÄ´¦Àí
-		if(!st.empty()) ans[st.top()] += 1;
+		// åœ¨å½“å‰å…ƒç´ å’Œä¸‹ä¸€ä¸ªæ›´å¤§å…ƒç´ ä¸­é—´çš„å¤„ç†
+		if (!st.empty())
+			ans[st.top()] += 1;
 
 		st.push(i);
 	}
 	return ans;
 }
 
-//int main() {
+// int main() {
 //	vector<int>height = { 10,6,8,5,11,9 };
 //	vector<int>ans = canSeePersonsCount1(height);
 //	for (auto a : ans) cout << a << " ";
 //	return 0;
-//}
+// }
 
-vector<int> test(vector<int>& nums) {
+vector<int> test(vector<int> &nums)
+{
 	int n = nums.size();
-	stack<int>st;
-	vector<int>ans(n, -1);
+	stack<int> st;
+	vector<int> ans(n, -1);
 	for (int i = 0; i < n; i++)
-	//for (int i = n-1; i >=0; i--)
+	// for (int i = n-1; i >=0; i--)
 	{
 		while (!st.empty() && nums[i] > nums[st.top()])
 		{
 			ans[st.top()] = nums[i];
 			st.pop();
-
 		}
-		//if (!st.empty()) { ans[i] = nums[st.top()]; }
+		// if (!st.empty()) { ans[i] = nums[st.top()]; }
 		st.push(i);
 	}
 	return ans;
 }
 
-//int main() {
+// int main() {
 //	vector<int>nums = { 1,3,4,2 };
 //	vector<int> ans = test(nums);
 //	for (auto a : ans) cout << a << " ";
 //	return 0;
-//}
+// }
 
-
-vector<int> maxSlidingWindow(std::vector<int>& nums, int k) {
+vector<int> maxSlidingWindow(std::vector<int> &nums, int k)
+{
 	vector<int> result;
 	deque<int> dq;
 
-	for (int i = 0; i < nums.size(); ++i) {
-		// É¾³ı¶ÓÁĞÖĞ²»ÔÚµ±Ç°´°¿Ú·¶Î§ÄÚµÄÔªËØ
+	for (int i = 0; i < nums.size(); ++i)
+	{
+		// åˆ é™¤é˜Ÿåˆ—ä¸­ä¸åœ¨å½“å‰çª—å£èŒƒå›´å†…çš„å…ƒç´ 
 		while (!dq.empty() && dq.front() < i - k + 1)
 			dq.pop_front();
 
-		// É¾³ı¶ÓÁĞÖĞĞ¡ÓÚµ±Ç°ÔªËØµÄÔªËØ£¬ÒòÎªËüÃÇ²»¿ÉÄÜÊÇ´°¿Ú×î´óÖµ
+		// åˆ é™¤é˜Ÿåˆ—ä¸­å°äºå½“å‰å…ƒç´ çš„å…ƒç´ ï¼Œå› ä¸ºå®ƒä»¬ä¸å¯èƒ½æ˜¯çª—å£æœ€å¤§å€¼
 		while (!dq.empty() && nums[dq.back()] < nums[i])
 			dq.pop_back();
 
 		dq.push_back(i);
 
-		// ½«´°¿Ú×î´óÖµ¼ÓÈë½á¹û¼¯
+		// å°†çª—å£æœ€å¤§å€¼åŠ å…¥ç»“æœé›†
 		if (i >= k - 1)
 			result.push_back(nums[dq.front()]);
 	}
@@ -650,7 +688,7 @@ vector<int> maxSlidingWindow(std::vector<int>& nums, int k) {
 	return result;
 }
 
-//int main() {
+// int main() {
 //	std::vector<int> nums = { 1, 3, -1, -3, 5, 3, 6, 7 };
 //	int k = 3;
 //	std::vector<int> result = maxSlidingWindow(nums, k);
@@ -661,4 +699,4 @@ vector<int> maxSlidingWindow(std::vector<int>& nums, int k) {
 //	std::cout << std::endl;
 //
 //	return 0;
-//}
+// }
