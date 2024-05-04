@@ -6,9 +6,9 @@
 using namespace std;
 
 
-//Ä£°å1
+//æ¨¡æ¿1
 /// <summary>
-/// 1.×î¼òµ¥µÄ¶ş·Ö²éÕÒ[left, right]
+/// 1.æœ€ç®€å•çš„äºŒåˆ†æŸ¥æ‰¾[left, right]
 /// </summary>
 int binarySearch1(vector<int>& nums, int target) {
 
@@ -36,7 +36,7 @@ int binarySearch1(vector<int>& nums, int target) {
 
 
 /// <summary>
-/// 2.xµÄÆ½·½¸ù
+/// 2.xçš„å¹³æ–¹æ ¹
 /// </summary>
 /// <param name="x"></param>
 /// <returns></returns>
@@ -107,7 +107,7 @@ bool isPerfectSquare(int num) {
 
 
 /// <summary>
-/// 3. ËÑË÷Ğı×ªÅÅĞòÊı×é(Õâ¸öÈ·ÊµÖµµÃ×ĞÏ¸£¬ÏÈÊ¹ÓÃ¶ş·Ö·¨Çø·Ö³öÄÄ±ßÊÇµİÔöÇø¼ä£¬Ö®ºóÔÙ¼ÌĞøÊ¹ÓÃ¶ş·Ö·¨½øĞĞ²éÕÒÄ¿±êÖµ)
+/// 3. æœç´¢æ—‹è½¬æ’åºæ•°ç»„(è¿™ä¸ªç¡®å®å€¼å¾—ä»”ç»†ï¼Œå…ˆä½¿ç”¨äºŒåˆ†æ³•åŒºåˆ†å‡ºå“ªè¾¹æ˜¯é€’å¢åŒºé—´ï¼Œä¹‹åå†ç»§ç»­ä½¿ç”¨äºŒåˆ†æ³•è¿›è¡ŒæŸ¥æ‰¾ç›®æ ‡å€¼)
 /// </summary>
 
 int searchplus(vector<int>& nums, int target) {
@@ -158,15 +158,15 @@ int searchplus(vector<int>& nums, int target) {
 
 
 
-//Ä£°å¶ş ÓÃÓÚ²éÕÒĞèÒª·ÃÎÊÊı×éÖĞµ±Ç°Ë÷Òı¼°ÆäÖ±½ÓÓÒÁÚ¾ÓË÷ÒıµÄÔªËØ»òÌõ¼ş¡£
+//æ¨¡æ¿äºŒ ç”¨äºæŸ¥æ‰¾éœ€è¦è®¿é—®æ•°ç»„ä¸­å½“å‰ç´¢å¼•åŠå…¶ç›´æ¥å³é‚»å±…ç´¢å¼•çš„å…ƒç´ æˆ–æ¡ä»¶ã€‚
 int binarySearch2(vector<int>& nums, int target) {
 	if (nums.size() == 0)
 		return -1;
 
-	int left = 0, right = nums.size();  //×¢Òâ£¡   // [left, right)
-	while (left < right) {						//×¢Òâ£¡
+	int left = 0, right = nums.size();  //æ³¨æ„ï¼   // [left, right)
+	while (left < right) {						//æ³¨æ„ï¼
 		int mid = left + (right - left) / 2;
-		if (nums[mid] == target) { return mid; }  //×¢Òâ£¡
+		if (nums[mid] == target) { return mid; }  //æ³¨æ„ï¼
 		else if (nums[mid] < target) { left = mid + 1; }
 		else { right = mid; }
 	}
@@ -181,7 +181,7 @@ int binarySearch2(vector<int>& nums, int target) {
 
 
 /// <summary>
-/// 1.Ñ°ÕÒ·åÖµ
+/// 1.å¯»æ‰¾å³°å€¼
 /// </summary>
 int findPeakElement(vector<int>& nums) {
 	if (nums.size() == 1)return 0;
@@ -208,7 +208,7 @@ int findPeakElement(vector<int>& nums) {
 
 
 /// <summary>
-/// 2.Ñ°ÕÒĞı×ªÅÅĞòÊı×éÖĞµÄ×îĞ¡Öµ
+/// 2.å¯»æ‰¾æ—‹è½¬æ’åºæ•°ç»„ä¸­çš„æœ€å°å€¼
 /// </summary>
 int findMin(vector<int>& nums) {
 	if (nums.size() == 1)return 0;
@@ -232,8 +232,8 @@ int findMin1(vector<int>& nums) {
 	{
 		int mid = l + (r - l) / 2;
 		if (nums[l] < nums[r]) return nums[l];
-		else if (nums[mid] >= nums[l]) { l = mid+1;  cout << "Çø¼äÑ¡ÔñÎª:[" << l << "," << r << "]" << endl; }
-		else { r = mid; cout << "Çø¼äÑ¡ÔñÎª:[" << l << "," << r << "]" << endl; }
+		else if (nums[mid] >= nums[l]) { l = mid+1;  cout << "åŒºé—´é€‰æ‹©ä¸º:[" << l << "," << r << "]" << endl; }
+		else { r = mid; cout << "åŒºé—´é€‰æ‹©ä¸º:[" << l << "," << r << "]" << endl; }
 	}
 	return nums[l];
 }
@@ -251,7 +251,7 @@ int findMin1(vector<int>& nums) {
 
 
 /// <summary>
-/// Ä£°åÈı-ÓÃÓÚËÑË÷ĞèÒª·ÃÎÊµ±Ç°Ë÷Òı¼°ÆäÔÚÊı×éÖĞµÄÖ±½Ó×óÓÒÁÚ¾ÓË÷ÒıµÄÔªËØ»òÌõ¼ş¡£
+/// æ¨¡æ¿ä¸‰-ç”¨äºæœç´¢éœ€è¦è®¿é—®å½“å‰ç´¢å¼•åŠå…¶åœ¨æ•°ç»„ä¸­çš„ç›´æ¥å·¦å³é‚»å±…ç´¢å¼•çš„å…ƒç´ æˆ–æ¡ä»¶ã€‚
 /// </summary>
 int binarySearch3(vector<int>& nums, int target) {  
 	if (nums.size() == 0)
@@ -284,7 +284,7 @@ int binarySearch3(vector<int>& nums, int target) {
 
 
 /// <summary>
-/// 1.ÔÚÅÅĞòÊı×éÖĞ²éÕÒÔªËØµÄµÚÒ»¸öºÍ×îºóÒ»¸öÎ»ÖÃ
+/// 1.åœ¨æ’åºæ•°ç»„ä¸­æŸ¥æ‰¾å…ƒç´ çš„ç¬¬ä¸€ä¸ªå’Œæœ€åä¸€ä¸ªä½ç½®
 /// </summary>
 vector<int> searchRange(vector<int>& nums, int target) {
 	vector<int> arr = { -1, -1 };
@@ -318,7 +318,7 @@ vector<int> searchRange(vector<int>& nums, int target) {
 
 
 /// <summary>
-/// Õâ¸ö·½·¨¸üºÃÀí½â
+/// è¿™ä¸ªæ–¹æ³•æ›´å¥½ç†è§£
 /// </summary>
 vector<int> searchRange1(vector<int>& nums, int target) {
 	int n = nums.size();
@@ -359,14 +359,14 @@ vector<int> searchRange1(vector<int>& nums, int target) {
 
 
 /// <summary>
-/// 2.ÕÒµ½ K ¸ö×î½Ó½üµÄÔªËØ
+/// 2.æ‰¾åˆ° K ä¸ªæœ€æ¥è¿‘çš„å…ƒç´ 
 /// </summary>
 vector<int> findClosestElements(vector<int>& arr, int k, int x) {
 	vector<int>  a;
 	int left = 0, right = arr.size() - k;
 	while (left < right) {
 		int mid = left + (right - left) / 2;
-		if (x-arr[mid] > arr[mid + k] - x)left = mid + 1;    //Ñ¡ÔñÇø¼ä[4,5,6]»¹ÊÇ[3,4,5]µÄ¹Ø¼üÔÚÔÚ[3,4,5,6]ÖĞÅĞ¶ÏÉ¾µô3»¹ÊÇ6£¬Ïàµ±ÓÚÕâ¸öÇø¼äÎªÒ»¸öÕûÌåÖ®ºó¶ş·Ö
+		if (x-arr[mid] > arr[mid + k] - x)left = mid + 1;    //é€‰æ‹©åŒºé—´[4,5,6]è¿˜æ˜¯[3,4,5]çš„å…³é”®åœ¨åœ¨[3,4,5,6]ä¸­åˆ¤æ–­åˆ æ‰3è¿˜æ˜¯6ï¼Œç›¸å½“äºè¿™ä¸ªåŒºé—´ä¸ºä¸€ä¸ªæ•´ä½“ä¹‹åäºŒåˆ†
 		else right = mid;
 	}
 	for (int i = left; i < k+left; i++)
@@ -394,9 +394,9 @@ vector<int> findClosestElements(vector<int>& arr, int k, int x) {
 
 
 /// <summary>
-/// ×ÛºÏÀıÌâ
+/// ç»¼åˆä¾‹é¢˜
 /// </summary>
-/// 1.xµÄn´Î·½
+/// 1.xçš„næ¬¡æ–¹
 /// 
 double traval(double x, int n) {
 	if (n == 0) {
@@ -418,13 +418,13 @@ double myPow(double x, int n) {
 
 
 /// <summary>
-/// 2.Ñ°ÕÒ±ÈÄ¿±ê×ÖÄ¸´óµÄ×îĞ¡×ÖÄ¸
+/// 2.å¯»æ‰¾æ¯”ç›®æ ‡å­—æ¯å¤§çš„æœ€å°å­—æ¯
 /// </summary>
 char nextGreatestLetter(vector<char>& letters, char target) {
 
-	int left = 0, right = letters.size()-1;  //×¢Òâ£¡   // [left, right)
+	int left = 0, right = letters.size()-1;  //æ³¨æ„ï¼   // [left, right)
 
-	while (left < right) {						//×¢Òâ£¡
+	while (left < right) {						//æ³¨æ„ï¼
 		int mid = left + (right - left) / 2;
 		 if (letters[mid] > target)
 				right = mid;
@@ -451,11 +451,11 @@ char nextGreatestLetter(vector<char>& letters, char target) {
 
 
 
-//ËÑË÷Ğı×ªÅÅĞòÊı×é2
-//Õâ¸öºÍ1²»Ò»ÑùµÄµãÔÚÓÚ¿ÉÒÔÓĞÖØ¸´ÔªËØ£¬ÕâÑùµÄ»°£¬»á³öÏÖÒ»¸öÎÊÌâ¡£Èç¹ûÁ½¸öÇø¼äµÄÆäÖĞÒ»¸öÊÇ²»Ôö²»¼õÇø¼ä(ÊıÖµ¶¼Ò»Ñù),ÄÇÃ´Ê£ÏÂµÄÒ»¸öÇø¼ä¾ÍÃ»·¨ÅĞ¶ÏÊÇµİÔö»¹ÊÇ·ÇµİÔöÁË
-//±ÈÈçËµÕâ¸ö [1,0,1,1,1] ÕâÑùµÄ»°£¬0 ´¦¼È¿ÉÒÔÊÇ100£¬Ò²¿ÉÒÔÊÇ0£¬ËùÒÔĞèÒª¼ÓÅĞ¶ÏÌõ¼ş
+//æœç´¢æ—‹è½¬æ’åºæ•°ç»„2
+//è¿™ä¸ªå’Œ1ä¸ä¸€æ ·çš„ç‚¹åœ¨äºå¯ä»¥æœ‰é‡å¤å…ƒç´ ï¼Œè¿™æ ·çš„è¯ï¼Œä¼šå‡ºç°ä¸€ä¸ªé—®é¢˜ã€‚å¦‚æœä¸¤ä¸ªåŒºé—´çš„å…¶ä¸­ä¸€ä¸ªæ˜¯ä¸å¢ä¸å‡åŒºé—´(æ•°å€¼éƒ½ä¸€æ ·),é‚£ä¹ˆå‰©ä¸‹çš„ä¸€ä¸ªåŒºé—´å°±æ²¡æ³•åˆ¤æ–­æ˜¯é€’å¢è¿˜æ˜¯éé€’å¢äº†
+//æ¯”å¦‚è¯´è¿™ä¸ª [1,0,1,1,1] è¿™æ ·çš„è¯ï¼Œ0 å¤„æ—¢å¯ä»¥æ˜¯100ï¼Œä¹Ÿå¯ä»¥æ˜¯0ï¼Œæ‰€ä»¥éœ€è¦åŠ åˆ¤æ–­æ¡ä»¶
 
-//´ğ°¸Ëµ£¬¶ÔÓÚÖĞ¼äºÍÁ½±ß¶¼ÏàµÈÕâÖÖÇé¿ö£¬ÎÒÃÇÖ»ÄÜ½«µ±Ç°¶ş·ÖÇø¼äµÄ×ó±ß½ç¼ÓÒ»£¬ÓÒ±ß½ç¼õÒ»£¬È»ºóÔÚĞÂÇø¼äÉÏ¼ÌĞø¶ş·Ö²éÕÒ¡£ÕâÄáÂêÊ±¼ä¸´ÔÓ¶È¶¼O(n)ÁË£¬ÕæÀ¬»ø
+//ç­”æ¡ˆè¯´ï¼Œå¯¹äºä¸­é—´å’Œä¸¤è¾¹éƒ½ç›¸ç­‰è¿™ç§æƒ…å†µï¼Œæˆ‘ä»¬åªèƒ½å°†å½“å‰äºŒåˆ†åŒºé—´çš„å·¦è¾¹ç•ŒåŠ ä¸€ï¼Œå³è¾¹ç•Œå‡ä¸€ï¼Œç„¶ååœ¨æ–°åŒºé—´ä¸Šç»§ç»­äºŒåˆ†æŸ¥æ‰¾ã€‚è¿™å°¼ç›æ—¶é—´å¤æ‚åº¦éƒ½O(n)äº†ï¼ŒçœŸåƒåœ¾
 bool search(vector<int>& nums, int target) {
 	int n = nums.size();
 	int left = 0, right = n - 1;
@@ -463,22 +463,22 @@ bool search(vector<int>& nums, int target) {
 	{
 		int mid = left + (right- left) / 2;
 		if (nums[mid] == target) return true;
-		//Ìí¼ÓµÄÁ½ĞĞ£¬µ«ÊÇÃ»·¨½â¾öÕâÖÖÇé¿ö[1,1,1,1,1,1,1,1,2,1,1],Á½±ß¶¼ºÍÖĞ¼äÏàÍ¬£¬¾ÍÃ»·¨ÅĞ¶ÏÄÄÒ»±ßÁË£¬¿´À´Ö»¼ì²âÁ½Í·ĞĞ²»Í¨£¬ĞèÒª¼ì²âËùÓĞ£¬
-		// ÄÇÕâÑùµÄ»°£¬ÓÃ¶ş·Ö·¨¶¼Ã»ÒâÒåÁË£¬O£¨n£©µÄ´úÂëÁ½ĞĞ¾ÍĞ´ÍêÁË£¬£¬£¬ÔõÃ´°ìÔõÃ´°ì£¿£¿
-		else if (nums[mid] == nums[right]) { right = mid - 1;  cout << "Çø¼äÑ¡ÔñÎª:[" << left << "," << right << "]" << endl; }
-		else if (nums[mid] == nums[left]) { left = mid + 1;  cout << "Çø¼äÑ¡ÔñÎª:[" << left << "," << right << "]" << endl; }
+		//æ·»åŠ çš„ä¸¤è¡Œï¼Œä½†æ˜¯æ²¡æ³•è§£å†³è¿™ç§æƒ…å†µ[1,1,1,1,1,1,1,1,2,1,1],ä¸¤è¾¹éƒ½å’Œä¸­é—´ç›¸åŒï¼Œå°±æ²¡æ³•åˆ¤æ–­å“ªä¸€è¾¹äº†ï¼Œçœ‹æ¥åªæ£€æµ‹ä¸¤å¤´è¡Œä¸é€šï¼Œéœ€è¦æ£€æµ‹æ‰€æœ‰ï¼Œ
+		// é‚£è¿™æ ·çš„è¯ï¼Œç”¨äºŒåˆ†æ³•éƒ½æ²¡æ„ä¹‰äº†ï¼ŒOï¼ˆnï¼‰çš„ä»£ç ä¸¤è¡Œå°±å†™å®Œäº†ï¼Œï¼Œï¼Œæ€ä¹ˆåŠæ€ä¹ˆåŠï¼Ÿï¼Ÿ
+		else if (nums[mid] == nums[right]) { right = mid - 1;  cout << "åŒºé—´é€‰æ‹©ä¸º:[" << left << "," << right << "]" << endl; }
+		else if (nums[mid] == nums[left]) { left = mid + 1;  cout << "åŒºé—´é€‰æ‹©ä¸º:[" << left << "," << right << "]" << endl; }
 
 		else if (nums[mid] >= nums[right]) {
 			if (nums[mid] == target) return true;
 			else if (nums[left] <= target && target<nums[mid]) right = mid - 1;
 			else left = mid + 1;
-			cout << "Çø¼äÑ¡ÔñÎª:[" << left << "," << right << "]" << endl;
+			cout << "åŒºé—´é€‰æ‹©ä¸º:[" << left << "," << right << "]" << endl;
 		}
 		else {
 			if (nums[mid] == target) return true;
 			else if (nums[right] >= target && target>nums[mid]) left = mid + 1;
 			else right = mid - 1;
-			cout << "Çø¼äÑ¡ÔñÎª:[" << left << "," << right << "]" << endl;
+			cout << "åŒºé—´é€‰æ‹©ä¸º:[" << left << "," << right << "]" << endl;
 		}
 
 	}

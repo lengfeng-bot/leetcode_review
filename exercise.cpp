@@ -217,10 +217,34 @@ string maximumBinaryString(string binary)
     return ans;
 }
 
+// int main()
+// {
+//     string binary = "1100";
+//     cout << maximumBinaryString(binary) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 总行驶距离
+int distanceTraveled(int mainTank, int additionalTank)
+{
+    int distance = 0;
+    while (mainTank >= 5 && additionalTank > 0)
+    {
+        distance += 10 * 5;
+        mainTank -= 5;
+        additionalTank--;
+        mainTank++;
+    }
+    distance += mainTank * 10;
+    return distance;
+}
+
 int main()
 {
-    string binary = "1100";
-    cout << maximumBinaryString(binary) << endl;
+    int mainTank = 1;
+    int additionalTank = 2;
+    cout << distanceTraveled(mainTank, additionalTank) << endl;
     system("pause");
     return 0;
 }

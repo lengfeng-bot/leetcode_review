@@ -660,7 +660,6 @@ int maxProfit2(vector<int> &prices)
 
 int maxProfit3(vector<int> &prices)
 {
-
     int n = prices.size();
     // dp[i][j]表示第i天持有股票或者不持有股票的最大利润
     vector<vector<int>> dp(n, vector<int>(4, 0));
@@ -672,40 +671,235 @@ int maxProfit3(vector<int> &prices)
     for (int i = 1; i < n; i++)
     {
         dp[i][0] = max(dp[i - 1][0], -prices[i]);
-        dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
-        dp[i][2] = max(dp[i - 1][3], dp[i - 1][1] - prices[i]);
-        dp[i][3] = max(dp[i - 1][2], dp[i - 1][2] + prices[i]);
+        dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] + prices[i]);
+        dp[i][2] = max(dp[i - 1][2], dp[i - 1][1] - prices[i]);
+        dp[i][3] = max(dp[i - 1][3], dp[i - 1][2] + prices[i]);
     }
 
-    return dp[n - 1][2];
+    return dp[n - 1][3];
 }
 
-int maxProfit3(int k, vector<int> &prices)
+int maxProfit4(int k, vector<int> &prices)
 {
 
     int n = prices.size();
     // dp[i][j]表示第i天持有股票或者不持有股票的最大利润
-    vector<vector<int>> dp(n, vector<int>(4, 0));
+    vector<vector<int>> dp(n, vector<int>(2 * k, 0));
     // 1持 1不持 2持 2不持
-    dp[0][0] = -prices[0];
-    dp[0][1] = 0;
-    dp[0][2] = -prices[0];
-    dp[0][3] = 0;
-    for (int i = 1; i < n; i++)
+    for (int i = 0; i < 2 * k; i += 2)
     {
-        dp[i][0] = max(dp[i - 1][0], -prices[i]);
-        dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
-        dp[i][2] = max(dp[i - 1][3], dp[i - 1][1] - prices[i]);
-        dp[i][3] = max(dp[i - 1][2], dp[i - 1][2] + prices[i]);
+        dp[0][i] = -prices[0];
     }
 
-    return dp[n - 1][2];
+    for (int i = 1; i < n; i++)
+    {
+        for (int j = 0; j < 2 * k; j += 2)
+        {
+            if (j == 0)
+                dp[i][j] = max(dp[i - 1][j], -prices[i]);
+            else
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - 1] - prices[i]);
+
+            dp[i][j + 1] = max(dp[i - 1][j + 1], dp[i - 1][j] + prices[i]);
+        }
+    }
+
+    return dp[n - 1][2 * k - 1];
 }
 
-int main()
+// int main()
+// {
+//     vector<int> prices = {1, 2, 4, 2, 5, 7, 2, 4, 9, 0};
+//     cout << maxProfit4(4, prices) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 买卖股票的最佳时机含冷冻期
+int maxProfitwithfreeze(vector<int> &prices)
 {
-    vector<int> prices = {3, 3, 5, 0, 0, 3, 1, 4};
-    cout << maxProfit3(prices) << endl;
-    system("pause");
-    return 0;
+    int n = prices.size();
+    // dp[i][j]表示第i天持有股票或者不持有股票的最大利润
+    vector<vector<int>> dp(n, vector<int>(2, 0));
+    if (n == 1)
+        return 0;
+    // 0表示不持有股票，1表示持有股票
+    dp[0][0] = 0;
+    dp[0][1] = -prices[0];
+    dp[1][0] = max(dp[0][0], dp[0][1] + prices[1]);
+    dp[1][1] = max(dp[0][1], dp[0][0] - prices[1]);
+    for (int i = 2; i < n; i++)
+    {
+        dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+        dp[i][1] = max(dp[i - 1][1], dp[i - 2][0] - prices[i]);
+    }
+    for (int i = 0; i < n; i++)
+    {
+        cout << dp[i][0] << " " << dp[i][1] << endl;
+    }
+    return dp[n - 1][0];
+}
+
+// 买卖股票的最佳时机含手续费
+int maxProfitwithfee(vector<int> &prices, int fee)
+{
+    int n = prices.size();
+    // dp[i][j]表示第i天持有股票或者不持有股票的最大利润
+    vector<vector<int>> dp(n, vector<int>(2, 0));
+    // 0表示不持有股票，1表示持有股票
+    dp[0][0] = 0;
+    dp[0][1] = -prices[0] - fee;
+    for (int i = 1; i < n; i++)
+    {
+        dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+        dp[i][1] = max(dp[i - 1][1], dp[i - 1][0] - prices[i] - fee);
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        cout << dp[i][0] << " " << dp[i][1] << endl;
+    }
+
+    return dp[n - 1][0];
+}
+
+// int main()
+// {
+//     vector<int> prices = {1};
+//     cout << maxProfitwithfreeze(prices) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 子序列问题
+
+// 最长递增子序列
+int lengthOfLIS(vector<int> &nums)
+{
+    int n = nums.size();
+    vector<int> dp(n, 1);
+    for (int i = 1; i < n; i++)
+        for (int j = 0; j < i; j++)
+        {
+            if (nums[i] > nums[j])
+                dp[i] = max(dp[i], dp[j] + 1);
+        }
+
+    for (auto d : dp)
+        cout << d << " ";
+    cout << endl;
+
+    return *max_element(dp.begin(), dp.end());
+}
+
+// 最长连续递增序列
+int findLengthOfLCIS(vector<int> &nums)
+{
+    int n = nums.size();
+    vector<int> dp(n, 1);
+    int ans = 1;
+    for (int i = 1; i < n; i++)
+    {
+        if (nums[i - 1] < nums[i])
+        {
+            dp[i] = dp[i - 1] + 1;
+            ans = max(dp[i], ans);
+        }
+        else
+            dp[i] = 1;
+    }
+    return ans;
+}
+
+// int main()
+// {
+//     vector<int> nums = {1, 3, 5, 4, 7};
+//     cout << findLengthOfLCIS(nums) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 最长重复子数组
+int findLength(vector<int> &nums1, vector<int> &nums2)
+{
+    int n = nums1.size();
+    int m = nums2.size();
+    int ans = INT_MIN;
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= m; j++)
+        {
+            if (nums1[i - 1] == nums2[j - 1])
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            if (dp[i][j] > ans)
+                ans = dp[i][j];
+            // cout << dp[i][j] << " ";
+        }
+        // cout << endl;
+    }
+    return ans;
+}
+
+// int main()
+// {
+//     vector<int> nums1 = {1, 2, 3, 2, 1};
+//     vector<int> nums2 = {3, 2, 1, 4, 7};
+//     cout << findLength(nums1, nums2) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 最长公共子序列
+int longestCommonSubsequence(string text1, string text2)
+{
+    int n = text1.size();
+    int m = text2.size();
+    int ans = INT_MIN;
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= m; j++)
+        {
+            if (text1[i - 1] == text2[j - 1])
+                dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]) + 1;
+            else
+                dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
+            cout << dp[i][j] << " ";
+        }
+        cout << endl;
+    }
+    return dp[n][m];
+}
+
+// int main()
+// {
+//     string text1 = "abc";
+//     string text2 = "def";
+//     cout << longestCommonSubsequence(text1, text2) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 不相交的线
+int maxUncrossedLines(vector<int> &nums1, vector<int> &nums2)
+{
+    int n = nums1.size();
+    int m = nums2.size();
+    int ans = INT_MIN;
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= m; j++)
+        {
+            if (nums1[i - 1] == nums2[j - 1])
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+
+            else
+                dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
+            // cout << dp[i][j] << " ";
+        }
+        // cout << endl;
+    }
+    return dp[n][m];
 }
