@@ -240,11 +240,166 @@ int distanceTraveled(int mainTank, int additionalTank)
     return distance;
 }
 
+// int main()
+// {
+//     int mainTank = 1;
+//     int additionalTank = 2;
+//     cout << distanceTraveled(mainTank, additionalTank) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 摘樱桃
+// 我的思路是，本体需要走两次，所以可以分成两个人，每个人走一次，然后再合并，但是这样的话，会有重复的路径，所以需要去重。我的做法是，第一个人走过的路径中，樱桃的位置置零，第二个人再走，但是这样的话，会出现的问题是，两次都尽可能取最大值，但这未必是两者之和的最大值！自己写的还贼麻烦，，，
+// int cherryPickup(vector<vector<int>> &grid)
+// {
+
+//     int n = grid.size();
+//     vector<vector<int>> dp(n, vector<int>(n, INT_MIN));
+//     dp[0][0] = grid[0][0];
+//     for (int i = 1; i < n; i++)
+//     {
+//         if (grid[0][i] == 1)
+//         {
+//             dp[0][i] = dp[0][i - 1] + grid[0][i];
+//             grid[0][i] = 0;
+//         }
+//         else if (grid[0][i] == 0)
+//             dp[0][i] = dp[0][i - 1];
+//     }
+//     for (int i = 1; i < n; i++)
+//     {
+//         if (grid[i][0] == 1)
+//         {
+//             dp[i][0] = dp[i - 1][0] + grid[i][0];
+//             grid[i][0] = 0;
+//         }
+//         else if (grid[i][0] == 0)
+//             dp[i][0] = dp[i - 1][0];
+//     }
+//     vector<int> trace;
+//     bool isleft = 0;
+//     int start = 0;
+//     for (int i = 1; i < n; i++)
+//         for (int j = 1; j < n; j++)
+//         {
+
+//             if (grid[i][j] == -1)
+//                 dp[i][j] = -1;
+//             else if (grid[i][j] == 1)
+//             {
+//                 if (dp[i - 1][j] > dp[i][j - 1])
+//                 {
+//                     if (i - 1 == 0)
+//                     {
+//                         start = j;
+//                     }
+
+//                     trace.push_back(1);
+//                 }
+//                 else
+//                 {
+//                     if (j - 1 == 0)
+//                     {
+//                         isleft = 1;
+//                         start = i;
+//                     }
+//                     trace.push_back(2);
+//                 }
+
+//                 dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]) + 1;
+//                 grid[i][j] = 0;
+//             }
+//             else
+//                 dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+//         }
+
+//     if (isleft)
+//     {
+//         int s = 0;
+//         int q = 0;
+//         while (s < n - 1 && q < n - 1)
+//         {
+//             if (isleft)
+//             {
+//                 while (s <= start)
+//                     if (grid[s][0] == 1)
+//                     {
+//                         grid[s][0] = 0;
+//                         s++;
+//                     }
+//                 for (int i = 0; i < trace.size(); i++)
+//                 {
+//                     if (trace[i] == 1)
+//                     {
+//                         if (grid[s][q + 1] == 1)
+//                         {
+//                             grid[s][q + 1] = 0;
+//                             q++;
+//                         }
+//                     }
+//                     else
+//                     {
+//                         if (grid[s + 1][q] == 1)
+//                         {
+//                             grid[s + 1][q] = 0;
+//                             s++;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     for (int i = 0; i < n; i++)
+//     {
+//         for (int j = 0; j < n; j++)
+//         {
+
+//             cout << dp[i][j] << " ";
+//         }
+//         cout << endl;
+//     }
+
+//     return dp[n - 1][n - 1];
+// }
+
+// int main()
+// {
+//     vector<vector<int>> grid = {{0, 1, -1}, {1, 0, -1}, {1, 1, 1}};
+//     int ans1 = cherryPickup(grid);
+//     int ans2 = cherryPickup(grid);
+
+//     system("pause");
+//     return 0;
+// }
+
+// 给植物浇水
+int wateringPlants(vector<int> &plants, int capacity)
+{
+    int n = plants.size();
+    int cur = capacity;
+    int step = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if(cur >= plants[i])
+        {
+            cur -= plants[i];
+            step++;
+        }
+        else if (cur < plants[i])
+        {
+            cur = capacity - plants[i];
+            step += 2 * i + 1;
+        }
+    }
+    return step;
+}
+
 int main()
 {
-    int mainTank = 1;
-    int additionalTank = 2;
-    cout << distanceTraveled(mainTank, additionalTank) << endl;
+    vector<int> plants = {1, 3, 2, 2};
+    cout << wateringPlants(plants, 5) << endl;
     system("pause");
     return 0;
 }

@@ -862,12 +862,12 @@ int longestCommonSubsequence(string text1, string text2)
         for (int j = 1; j <= m; j++)
         {
             if (text1[i - 1] == text2[j - 1])
-                dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]) + 1;
+                dp[i][j] = dp[i - 1][j - 1] + 1;
             else
                 dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
-            cout << dp[i][j] << " ";
+            // cout << dp[i][j] << " ";
         }
-        cout << endl;
+        // cout << endl;
     }
     return dp[n][m];
 }
@@ -902,4 +902,238 @@ int maxUncrossedLines(vector<int> &nums1, vector<int> &nums2)
         // cout << endl;
     }
     return dp[n][m];
+}
+
+// 回文子串
+int countSubstrings(string s)
+{
+    int n = s.size();
+    vector<vector<bool>> dp(n, vector<bool>(n, 0));
+    int ans = 0;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        for (int j = i; j < n; j++)
+        {
+            if (s[i] == s[j])
+            {
+                if (j - i <= 1)
+                {
+                    ans++;
+                    dp[i][j] = true;
+                }
+                else if (dp[i + 1][j - 1])
+                {
+                    ans++;
+                    dp[i][j] = true;
+                }
+            }
+        }
+    }
+    return ans;
+}
+// int main()
+// {
+//     string s = "aba";
+//     cout << countSubstrings(s) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 最长回文子串
+string longestPalindrome(string s)
+{
+    int n = s.size();
+    vector<vector<bool>> dp(n, vector<bool>(n, 0));
+    int maxlen = 0;
+    int start = 0;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        for (int j = i; j < n; j++)
+        {
+            if (s[i] == s[j])
+            {
+                if (j - i <= 1)
+                    dp[i][j] = true;
+                else if (dp[i + 1][j - 1])
+                    dp[i][j] = true;
+            }
+            if (dp[i][j] == 1)
+            {
+                if (maxlen < j - i + 1)
+                {
+                    maxlen = j - i + 1;
+                    start = i;
+                }
+            }
+        }
+    }
+    return s.substr(start, maxlen);
+}
+
+// int main()
+// {
+//     string s = "cbbd";
+//     cout << longestPalindrome(s) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 最长回文子序列
+int longestPalindromeSubseq(string s)
+{
+    int n = s.size();
+    vector<vector<int>> dp(n, vector<int>(n, 0));
+    for (int i = 0; i < n; i++)
+    {
+        dp[i][i] = 1;
+    }
+    for (int i = n - 1; i >= 0; i--)
+        for (int j = i + 1; j < n; j++)
+        {
+            if (s[i] == s[j])
+                dp[i][j] = dp[i + 1][j - 1] + 2;
+            else
+                dp[i][j] = max(dp[i + 1][j], dp[i][j - 1]);
+        }
+
+    return dp[0][n - 1];
+}
+
+// int main()
+// {
+//     string s = "bbbab";
+//     cout << longestPalindromeSubseq(s) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 判断子序列
+bool isSubsequence(string s, string t)
+{
+    int m = s.size();
+    int n = t.size();
+    if (m == 0)
+        return true;
+    if (n == 0)
+        return false;
+    vector<vector<int>> dp(m, vector<int>(n, 0));
+    bool check = 0;
+    for (int i = 0; i < m; i++)
+    {
+
+        if (s[i] == t[0])
+        {
+            check = 1;
+        }
+        if (check)
+            dp[i][0] = 1;
+    }
+    check = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (t[i] == s[0])
+            check = 1;
+
+        if (check)
+            dp[0][i] = 1;
+    }
+
+    for (int i = 1; i < m; i++)
+    {
+        for (int j = 1; j < n; j++)
+        {
+            if (s[i] == t[j])
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            else
+                dp[i][j] = dp[i][j - 1];
+        }
+    }
+
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            cout << dp[i][j] << " ";
+        }
+        cout << endl;
+    }
+    return dp[m - 1][n - 1] == m;
+}
+
+// int main()
+// {
+//     string s = "aaaaaa";
+//     string t = "bbaaaa";
+//     bool ans = isSubsequence(s, t);
+//     cout << ans;
+
+//     system("pause");
+//     return 0;
+// }
+
+// 不同的子序列
+int numDistinct(string s, string t)
+{
+    int m = s.size();
+    int n = t.size();
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    for (int i = 0; i < m; i++)
+        dp[i][0] = 1;
+    for (int i = 1; i <= m; i++)
+    {
+        for (int j = 1; j <= n; j++)
+        {
+            if (s[i - 1] == t[j - 1])
+            {
+                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+            }
+            else
+                dp[i][j] = dp[i - 1][j];
+            cout << dp[i][j] << " ";
+        }
+
+        cout << endl;
+    }
+
+    return dp[m][n];
+}
+
+// int main()
+// {
+//     string s = "bagg";
+//     string t = "bag";
+//     int ans = numDistinct(s, t);
+//     cout << ans;
+
+//     system("pause");
+//     return 0;
+// }
+
+// 两个字符串的删除操作
+int minDistance(string word1, string word2)
+{
+    int n = word1.size();
+    int m = word2.size();
+    int ans = INT_MIN;
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= m; j++)
+        {
+            if (word1[i - 1] == word2[j - 1])
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            else
+                dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
+            // cout << dp[i][j] << " ";
+        }
+        // cout << endl;
+    }
+    return m + n - 2 * dp[n][m];
+}
+
+int main()
+{
+    cout << minDistance("leet", "et") << endl;
+    system("pause");
+    return 0;
 }
