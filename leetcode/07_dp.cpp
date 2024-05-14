@@ -396,7 +396,7 @@ int bagall(vector<int> weight, vector<int> value, int bagweight)
 
     // 先遍历物品，再遍历背包！！
     for (int i = 0; i < n; i++)                      // 遍历物品
-        for (int j = weight[i]; j <= bagweight; j++) // 逆序遍历背包
+        for (int j = weight[i]; j <= bagweight; j++) // 顺序遍历背包
         {
 
             dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
@@ -1072,6 +1072,7 @@ bool isSubsequence(string s, string t)
 // }
 
 // 不同的子序列
+// 相当于求s通过删除操作转化为t的方法
 int numDistinct(string s, string t)
 {
     int m = s.size();
@@ -1109,31 +1110,105 @@ int numDistinct(string s, string t)
 //     return 0;
 // }
 
-// 两个字符串的删除操作
-int minDistance(string word1, string word2)
+// // 两个字符串的删除操作
+// int minDistance(string word1, string word2)
+// {
+//     int n = word1.size();
+//     int m = word2.size();
+//     int ans = INT_MIN;
+//     vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+//     for (int i = 1; i <= n; i++)
+//     {
+//         for (int j = 1; j <= m; j++)
+//         {
+//             if (word1[i - 1] == word2[j - 1])
+//                 dp[i][j] = dp[i - 1][j - 1] + 1;
+//             else
+//                 dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
+//             // cout << dp[i][j] << " ";
+//         }
+//         // cout << endl;
+//     }
+//     return m + n - 2 * dp[n][m];
+// }
+
+// 两个字符串的删除操作,第二种解法
+int minDistance1(string word1, string word2)
 {
-    int n = word1.size();
-    int m = word2.size();
+    int m = word1.size();
+    int n = word2.size();
     int ans = INT_MIN;
-    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
-    for (int i = 1; i <= n; i++)
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    for (int i = 0; i <= m; i++)
+        dp[i][0] = i;
+    for (int i = 0; i <= n; i++)
+        dp[0][i] = i;
+
+    for (int i = 1; i <= m; i++)
     {
-        for (int j = 1; j <= m; j++)
+        for (int j = 1; j <= n; j++)
         {
             if (word1[i - 1] == word2[j - 1])
-                dp[i][j] = dp[i - 1][j - 1] + 1;
+                dp[i][j] = dp[i - 1][j - 1];
             else
-                dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
+                dp[i][j] = min(min(dp[i][j - 1], dp[i - 1][j]) + 1, dp[i - 1][j - 1] + 2);
             // cout << dp[i][j] << " ";
         }
         // cout << endl;
     }
-    return m + n - 2 * dp[n][m];
+
+    // for (int i = 0; i <= m; i++)
+    // {
+    //     for (int j = 0; j <= n; j++)
+    //     {
+    //         cout << dp[i][j] << " ";
+    //     }
+    //     cout << endl;
+    // }
+
+    return dp[m][n];
+}
+
+// 编辑距离！！
+int minDistance(string word1, string word2)
+{
+    int m = word1.size();
+    int n = word2.size();
+    int ans = INT_MIN;
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    for (int i = 0; i <= m; i++)
+        dp[i][0] = i;
+    for (int i = 0; i <= n; i++)
+        dp[0][i] = i;
+
+    for (int i = 1; i <= m; i++)
+    {
+        for (int j = 1; j <= n; j++)
+        {
+            if (word1[i - 1] == word2[j - 1])
+                dp[i][j] = dp[i - 1][j - 1];
+            else
+                dp[i][j] = min(min(dp[i][j - 1], dp[i - 1][j]) + 1, dp[i - 1][j - 1] + 1);
+            // cout << dp[i][j] << " ";
+        }
+        // cout << endl;
+    }
+
+    for (int i = 0; i <= m; i++)
+    {
+        for (int j = 0; j <= n; j++)
+        {
+            cout << dp[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    return dp[m][n];
 }
 
 int main()
 {
-    cout << minDistance("leet", "et") << endl;
+    cout << minDistance("horse", "ros") << endl;
     system("pause");
     return 0;
 }

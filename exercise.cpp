@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <unordered_map>
 using namespace std;
 
 // 最小山形三元组
@@ -382,7 +383,7 @@ int wateringPlants(vector<int> &plants, int capacity)
     int step = 0;
     for (int i = 0; i < n; i++)
     {
-        if(cur >= plants[i])
+        if (cur >= plants[i])
         {
             cur -= plants[i];
             step++;
@@ -396,10 +397,65 @@ int wateringPlants(vector<int> &plants, int capacity)
     return step;
 }
 
+// int main()
+// {
+//     vector<int> plants = {1, 3, 2, 2};
+//     cout << wateringPlants(plants, 5) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+int climb(int num)
+{
+    vector<int> dp(num + 1, INT_MAX);
+    if (num == 0)
+        return 0;
+    if (num == 1)
+        return -1; // 无法仅通过减去2或3得到0
+    dp[0] = 0;
+    for (int i = 2; i <= num; ++i)
+    {
+        if (i - 2 >= 0 && dp[i - 2] != INT_MAX)
+        {
+            dp[i] = std::min(dp[i], dp[i - 2] + 1);
+        }
+        if (i - 3 >= 0 && dp[i - 3] != INT_MAX)
+        {
+            dp[i] = std::min(dp[i], dp[i - 3] + 1);
+        }
+    }
+
+    return dp[num] == INT_MAX ? -1 : dp[num];
+}
+
+// 完成所有任务所需要的最少轮数
+int minimumRounds(vector<int> &tasks)
+{
+    unordered_map<int, int> map;
+    for (int i = 0; i < tasks.size(); i++)
+    {
+        map[tasks[i]]++;
+    }
+    int num = 0;
+    for (auto it = map.begin(); it != map.end(); it++)
+    {
+
+        int step = climb(it->second);
+        if (step == -1)
+            return -1;
+        else
+            num += step;
+    }
+
+    return num;
+}
+
+// 这道题贪心解法更简单，直接让这个数除以3，根据余数判断情况即可。
 int main()
 {
-    vector<int> plants = {1, 3, 2, 2};
-    cout << wateringPlants(plants, 5) << endl;
+
+    vector<int> tasks = {2, 2, 3, 3, 2, 4, 4, 4, 4, 4};
+    cout << minimumRounds(tasks) << endl;
     system("pause");
     return 0;
 }
