@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <string>
 #include <unordered_map>
+#include <functional>
+#include <numeric>
 using namespace std;
 
 // 最小山形三元组
@@ -450,12 +452,90 @@ int minimumRounds(vector<int> &tasks)
     return num;
 }
 
-// 这道题贪心解法更简单，直接让这个数除以3，根据余数判断情况即可。
+// // 这道题贪心解法更简单，直接让这个数除以3，根据余数判断情况即可。
+// int main()
+// {
+
+//     vector<int> tasks = {2, 2, 3, 3, 2, 4, 4, 4, 4, 4};
+//     cout << minimumRounds(tasks) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 完成所有任务的最少时间
+// int findMinimumTime(vector<vector<int>> &tasks)
+// {
+//     int n = tasks.size();
+//     sort(tasks.begin(), tasks.end(), [](vector<int> &a, vector<int> &b)
+//          { return a[1] < b[1]; });
+
+//     vector<int> run(tasks[n - 1][1] + 1);
+//     int res = 0;
+//     for (int i = 0; i < n; i++)
+//     {
+//         int start = tasks[i][0], end = tasks[i][1], duration = tasks[i][2];
+//         duration -= accumulate(run.begin() + start, run.begin() + end + 1, 0);
+//         res += max(duration, 0);
+//         for (int j = end; j >= 0 && duration > 0; j--)
+//         {
+//             if (run[j] == 0)
+//             {
+//                 duration--;
+//                 run[j] = 1;
+//             }
+//         }
+//     }
+//     return res;
+// }
+
+// int main()
+// {
+//     vector<vector<int>> tasks = {{2, 3, 1}, {4, 5, 1}, {1, 5, 2}};
+//     cout << findMinimumTime(tasks) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 可以工作的最大周数
+long long numberOfWeeks(vector<int> &milestones)
+{
+    // 耗时最长工作所需周数
+    long long longest = *max_element(milestones.begin(), milestones.end());
+    // 其余工作共计所需周数
+    long long rest = accumulate(milestones.begin(), milestones.end(), 0LL) - longest;
+    if (longest > rest + 1)
+    {
+        // 此时无法完成所耗时最长的工作
+        return rest * 2 + 1;
+    }
+    else
+    {
+        // 此时可以完成所有工作
+        return longest + rest;
+    }
+}
+
 int main()
 {
-
-    vector<int> tasks = {2, 2, 3, 3, 2, 4, 4, 4, 4, 4};
-    cout << minimumRounds(tasks) << endl;
+    vector<int> nums = {1, 2, 5};
+    cout << numberOfWeeks(nums) << endl;
     system("pause");
     return 0;
+}
+
+// 移除石子的最大的得分
+int maximumScore(int a, int b, int c)
+{
+    int maxnum = max(max(a, b), c);
+    int sum = a + b + c;
+    int rest = sum - maxnum;
+    if (maxnum > rest + 1)
+        return rest;
+    else
+        return sum / 2;
+}
+
+// 使数组中所有元素相等的最小开销
+int minCostToEqualizeArray(vector<int> &nums, int cost1, int cost2)
+{
 }
