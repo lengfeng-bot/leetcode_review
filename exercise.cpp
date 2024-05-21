@@ -515,13 +515,13 @@ long long numberOfWeeks(vector<int> &milestones)
     }
 }
 
-int main()
-{
-    vector<int> nums = {1, 2, 5};
-    cout << numberOfWeeks(nums) << endl;
-    system("pause");
-    return 0;
-}
+// int main()
+// {
+//     vector<int> nums = {1, 2, 5};
+//     cout << numberOfWeeks(nums) << endl;
+//     system("pause");
+//     return 0;
+// }
 
 // 移除石子的最大的得分
 int maximumScore(int a, int b, int c)
@@ -538,4 +538,71 @@ int maximumScore(int a, int b, int c)
 // 使数组中所有元素相等的最小开销
 int minCostToEqualizeArray(vector<int> &nums, int cost1, int cost2)
 {
+    return 0;
+}
+
+// 找出最长的超赞子字符串
+// 想法：超赞子字符串是由n对相同的字符和小于等于1个单独字符组成的。这是满足超赞的必要条件。我的思路是先统计当前区间的单独字符有多少个，如果单独字符串数量小于等于1个时候，统计该区间长度，找出最长即可。
+// 通过哈希表可以判断单独字符串的数量，如果字符之前没出现过，单独字符串加一，如果出现过，单独字符串减一。
+// 最后的问题就是区间如何选择，两层循环超时，一层循环滑窗没有好的方案。
+int longestAwesome(string s)
+{
+    int n = s.size();
+    int ans = 0;
+    for (int i = 0; i < n; i++)
+    {
+        int num_unique = 0;
+        unordered_map<char, int> map;
+        for (int j = i; j < n; j++)
+        {
+            map[s[j]]++;
+
+            if (map[s[j]] % 2 == 1)
+                num_unique++;
+            else if (map[s[j]] % 2 == 0)
+                num_unique--;
+            if (num_unique <= 1)
+                ans = max(ans, j - i + 1);
+        }
+    }
+
+    return ans;
+}
+
+// 答案的方法采用了位运算的方法和数学知识，还是有些难想的
+int longestAwesome(string s)
+{
+    int n = s.size();
+    unordered_map<int, int> prefix = {{0, -1}};
+    int ans = 0;
+    int sequence = 0;
+    for (int j = 0; j < n; ++j)
+    {
+        int digit = s[j] - '0';
+        sequence ^= (1 << digit);
+        if (prefix.count(sequence))
+        {
+            ans = max(ans, j - prefix[sequence]);
+        }
+        else
+        {
+            prefix[sequence] = j;
+        }
+        for (int k = 0; k < 10; ++k)
+        {
+            if (prefix.count(sequence ^ (1 << k)))
+            {
+                ans = max(ans, j - prefix[sequence ^ (1 << k)]);
+            }
+        }
+    }
+    return ans;
+}
+
+int main()
+{
+
+    cout << longestAwesome("51224") << endl;
+    system("pause");
+    return 0;
 }

@@ -2,6 +2,8 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
+#include <unordered_map>
+#include <list>
 using namespace std;
 
 // 分发饼干
@@ -152,10 +154,148 @@ int jump(vector<int> &nums)
     return step;
 }
 
+// int main()
+// {
+//     vector<int> nums = {2, 3, 1, 1, 4};
+//     cout << jump(nums) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 合并区间
+vector<vector<int>> merge(vector<vector<int>> &intervals)
+{
+
+    sort(intervals.begin(), intervals.end());
+    vector<vector<int>> result;
+    result.push_back(intervals[0]);
+    int j = 0;
+    for (int i = j + 1; i < intervals.size(); i++)
+    {
+        if (intervals[i][0] <= result[j][1])
+            result[j][1] = max(result[j][1], intervals[i][1]);
+        else
+        {
+            result.push_back(intervals[i]);
+            j++;
+        }
+    }
+    return result;
+}
+
+// 无重叠区间
+int eraseOverlapIntervals(vector<vector<int>> &intervals)
+{
+    sort(intervals.begin(), intervals.end());
+    int count = 0;             // 记录需要移除的区间数量
+    int end = intervals[0][1]; // 当前所选区间的结束时间
+
+    for (int i = 1; i < intervals.size(); ++i)
+    {
+        if (intervals[i][0] < end)
+        {
+            // 当前区间与前一个区间重叠，需要移除一个区间
+            count++;
+            // 选取更小的结束时间
+            end = min(end, intervals[i][1]);
+        }
+        else
+        {
+            // 当前区间与前一个区间不重叠，更新结束时间
+            end = intervals[i][1];
+        }
+    }
+
+    return count;
+}
+
+// int main()
+// {
+//     vector<vector<int>> inter = {{1, 2}, {2, 3}, {3, 4}, {1, 3}};
+//     int ans = eraseOverlapIntervals(inter);
+//     cout << ans << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 划分字母区间
+vector<int> partitionLabels(string s)
+{
+    unordered_map<char, int> map;
+    for (int i = 0; i < s.size(); i++)
+    {
+        map[s[i]] = i;
+    }
+
+    vector<int> ans;
+    int start = 0, end = 0;
+    for (int i = 0; i < s.size(); i++)
+    {
+        end = max(end, map[s[i]]);
+        if (i == end)
+        {
+            ans.push_back(end - start + 1);
+            start = end + 1;
+        }
+    }
+
+    return ans;
+}
+
+// int main()
+// {
+//     string s = "ababcbacadefegdehijhklij";
+//     vector<int> ans = partitionLabels(s);
+//     for (auto a : ans)
+//         cout << a << " ";
+//     cout << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 用最少的箭引爆气球
+int findMinArrowShots(vector<vector<int>> &points)
+{
+
+    sort(points.begin(), points.end(), [](vector<int> &a, vector<int> &b)
+         { return a[1] < b[1]; });
+    int end = points[0][1];
+    int cnt = 1;
+    for (int i = 1; i < points.size(); i++)
+    {
+        if (end >= points[i][0])
+            continue;
+        else
+        {
+            end = points[i][1];
+            cnt++;
+        }
+    }
+    return cnt;
+}
+
+// 根据身高重建队列
+vector<vector<int>> reconstructQueue(vector<vector<int>> &people)
+{
+    int n = people.size();
+    sort(people.begin(), people.end(), [](const vector<int> &u, const vector<int> &v)
+         { return u[0] > v[0] || (u[0] == v[0] && u[1] < v[1]); });
+    vector<vector<int>> ans;
+    for (int i = 0; i < people.size(); i++)
+    {
+        ans.insert(ans.begin() + people[i][1], people[i]);
+    }
+    return ans;
+}
+
 int main()
 {
-    vector<int> nums = {2, 3, 1, 1, 4};
-    cout << Jump(nums) << endl;
+    vector<vector<int>> people = {{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}};
+    vector<vector<int>> ans = reconstructQueue(people);
+    for (int i = 0; i < ans.size(); i++)
+    {
+        cout << ans[i][0] << " " << ans[i][1] << endl;
+    }
     system("pause");
     return 0;
 }
