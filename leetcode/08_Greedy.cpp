@@ -288,14 +288,59 @@ vector<vector<int>> reconstructQueue(vector<vector<int>> &people)
     return ans;
 }
 
+// int main()
+// {
+//     vector<vector<int>> people = {{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}};
+//     vector<vector<int>> ans = reconstructQueue(people);
+//     for (int i = 0; i < ans.size(); i++)
+//     {
+//         cout << ans[i][0] << " " << ans[i][1] << endl;
+//     }
+//     system("pause");
+//     return 0;
+// }
+
+// 可以工作的最大周数
+long long numberOfWeeks(vector<int> &milestones)
+{
+    // 耗时最长工作所需周数
+    long long longest = *max_element(milestones.begin(), milestones.end());
+    // 其余工作共计所需周数
+    long long rest = accumulate(milestones.begin(), milestones.end(), 0LL) - longest;
+    if (longest > rest + 1)
+    {
+        // 此时无法完成所耗时最长的工作
+        return rest * 2 + 1;
+    }
+    else
+    {
+        // 此时可以完成所有工作
+        return longest + rest;
+    }
+}
+
 int main()
 {
-    vector<vector<int>> people = {{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}};
-    vector<vector<int>> ans = reconstructQueue(people);
-    for (int i = 0; i < ans.size(); i++)
-    {
-        cout << ans[i][0] << " " << ans[i][1] << endl;
-    }
+    vector<int> nums = {1, 2, 5};
+    cout << numberOfWeeks(nums) << endl;
     system("pause");
+    return 0;
+}
+
+// 移除石子的最大的得分
+int maximumScore(int a, int b, int c)
+{
+    int maxnum = max(max(a, b), c);
+    int sum = a + b + c;
+    int rest = sum - maxnum;
+    if (maxnum > rest + 1)
+        return rest;
+    else
+        return sum / 2;
+}
+
+// 使数组中所有元素相等的最小开销
+int minCostToEqualizeArray(vector<int> &nums, int cost1, int cost2)
+{
     return 0;
 }

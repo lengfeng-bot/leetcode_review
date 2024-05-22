@@ -570,7 +570,7 @@ int longestAwesome(string s)
 }
 
 // 答案的方法采用了位运算的方法和数学知识，还是有些难想的
-int longestAwesome(string s)
+int longestAwesome1(string s)
 {
     int n = s.size();
     unordered_map<int, int> prefix = {{0, -1}};
@@ -599,10 +599,65 @@ int longestAwesome(string s)
     return ans;
 }
 
+// int main()
+// {
+
+//     cout << longestAwesome("51224") << endl;
+//     system("pause");
+//     return 0;
+// }
+
+vector<vector<int>> findWinners(vector<vector<int>> &matches)
+{
+    int n = matches.size();
+    unordered_map<int, int> map;
+    vector<int> ans1;
+    vector<int> ans2;
+    for (int i = 0; i < n; i++)
+    {
+        map[matches[i][1]]++;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (map[matches[i][0]] == 0)
+            ans1.push_back(matches[i][0]);
+    }
+    sort(ans1.begin(), ans1.end());
+    auto nums2 = unique(ans1.begin(), ans1.end());
+    ans1.erase(nums2, ans1.end());
+
+    for (auto it = map.begin(); it != map.end(); it++)
+    {
+        // cout << it->first << " " << it->second << endl;
+        if (it->second == 1)
+            ans2.push_back(it->first);
+    }
+    sort(ans2.begin(), ans2.end());
+    return {ans1, ans2};
+}
+
 int main()
 {
+    vector<vector<int>> matches = {{1, 3},
+                                   {2, 3},
+                                   {3, 6},
+                                   {5, 6},
+                                   {5, 7},
+                                   {4, 5},
+                                   {4, 8},
+                                   {4, 9},
+                                   {10, 4},
+                                   {10, 9}};
+    vector<vector<int>> ans = findWinners(matches);
+    for (int i = 0; i < ans.size(); i++)
+    {
+        for (auto t : ans[i])
+        {
+            cout << t << " ";
+        }
+        cout << endl;
+    }
 
-    cout << longestAwesome("51224") << endl;
     system("pause");
     return 0;
 }
