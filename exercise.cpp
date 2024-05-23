@@ -636,28 +636,65 @@ vector<vector<int>> findWinners(vector<vector<int>> &matches)
     return {ans1, ans2};
 }
 
-int main()
+// int main()
+// {
+//     vector<vector<int>> matches = {{1, 3},
+//                                    {2, 3},
+//                                    {3, 6},
+//                                    {5, 6},
+//                                    {5, 7},
+//                                    {4, 5},
+//                                    {4, 8},
+//                                    {4, 9},
+//                                    {10, 4},
+//                                    {10, 9}};
+//     vector<vector<int>> ans = findWinners(matches);
+//     for (int i = 0; i < ans.size(); i++)
+//     {
+//         for (auto t : ans[i])
+//         {
+//             cout << t << " ";
+//         }
+//         cout << endl;
+//     }
+
+//     system("pause");
+//     return 0;
+// }
+
+// 找出最长的等值子数组
+// 先使用哈希映射，之后使用滑动窗口遍历
+int longestEqualSubarray(vector<int> &nums, int k)
 {
-    vector<vector<int>> matches = {{1, 3},
-                                   {2, 3},
-                                   {3, 6},
-                                   {5, 6},
-                                   {5, 7},
-                                   {4, 5},
-                                   {4, 8},
-                                   {4, 9},
-                                   {10, 4},
-                                   {10, 9}};
-    vector<vector<int>> ans = findWinners(matches);
-    for (int i = 0; i < ans.size(); i++)
+    unordered_map<int, vector<int>> map;
+    for (int i = 0; i < nums.size(); i++)
     {
-        for (auto t : ans[i])
-        {
-            cout << t << " ";
-        }
-        cout << endl;
+        map[nums[i]].push_back(i);
     }
 
+    int ans = 0;
+    for (auto it = map.begin(); it != map.end(); it++)
+    {
+        for (int i = 0, j = 0; i < it->second.size(); i++)
+        {
+
+            while ((it->second)[i] - (it->second)[j] - (i - j) > k)
+            {
+                j++;
+            }
+            ans = max(ans, i - j + 1);
+        }
+    }
+
+    return ans;
+}
+
+int main()
+{
+
+    vector<int> nums = {1, 3, 2, 3, 1, 2, 3};
+    int ans = longestEqualSubarray(nums, 3);
+    cout << ans;
     system("pause");
     return 0;
 }
