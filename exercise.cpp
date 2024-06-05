@@ -689,12 +689,157 @@ int longestEqualSubarray(vector<int> &nums, int k)
     return ans;
 }
 
+// int main()
+// {
+
+//     vector<int> nums = {1, 3, 2, 3, 1, 2, 3};
+//     int ans = longestEqualSubarray(nums, 3);
+//     cout << ans;
+//     system("pause");
+//     return 0;
+// }
+
+vector<int> findIndices(vector<int> &nums, int indexDifference, int valueDifference)
+{
+    int n = nums.size();
+    int maxidx = 0;
+    int minidx = 0;
+
+    for (int i = indexDifference; i < n; i++)
+    {
+        int j = i - indexDifference;
+        if (nums[j] > nums[maxidx])
+        {
+            maxidx = j;
+        }
+        if (nums[j] < nums[minidx])
+        {
+            minidx = j;
+        }
+
+        if (nums[i] - nums[minidx] >= valueDifference)
+        {
+            return {minidx, i};
+        }
+        if (nums[maxidx] - nums[i] >= valueDifference)
+        {
+            return {maxidx, i};
+        }
+    }
+    return {-1, -1};
+}
+
+int greaterCount(vector<int> nums, int val)
+{
+
+    int count = 0;
+    for (auto num : nums)
+        if (num > val)
+            count++;
+    return count;
+}
+
+// 将元素分配到两个数组中Ⅱ
+// 这个解法果然超时了，正确的做法是使用树形数组！但这个之前没遇到过
+vector<int> resultArray(vector<int> &nums)
+{
+    vector<int> arr1;
+    vector<int> arr2;
+    arr1.push_back(nums[0]);
+    arr2.push_back(nums[1]);
+    for (int i = 2; i < nums.size(); i++)
+    {
+        if (greaterCount(arr1, nums[i]) > greaterCount(arr2, nums[i]))
+            arr1.push_back(nums[i]);
+        else if (greaterCount(arr1, nums[i]) < greaterCount(arr2, nums[i]))
+            arr2.push_back(nums[i]);
+        else
+        {
+            if (arr1.size() > arr2.size())
+                arr2.push_back(nums[i]);
+            else
+                arr1.push_back(nums[i]);
+        }
+    }
+    arr1.insert(arr1.end(), arr2.begin(), arr2.end());
+    return arr1;
+}
+
+// 先抄一个官方代码
+class BinaryIndexedTree
+{
+private:
+    vector<int> tree;
+
+public:
+    BinaryIndexedTree(int n) : tree(n + 1) {}
+
+    void add(int i)
+    {
+        while (i < tree.size())
+        {
+            tree[i] += 1;
+            i += i & -i;
+        }
+    }
+
+    int get(int i)
+    {
+        int res = 0;
+        while (i > 0)
+        {
+            res += tree[i];
+            i &= i - 1;
+        }
+        return res;
+    }
+};
+
+vector<int> resultArray1(vector<int> &nums)
+{
+    int n = nums.size();
+    vector<int> sortedNums = nums;
+    sort(sortedNums.begin(), sortedNums.end());
+    unordered_map<int, int> index;
+    for (int i = 0; i < n; ++i)
+    {
+        index[sortedNums[i]] = i + 1;
+    }
+
+    vector<int> arr1 = {nums[0]};
+    vector<int> arr2 = {nums[1]};
+    BinaryIndexedTree tree1(n), tree2(n);
+    tree1.add(index[nums[0]]);
+    tree2.add(index[nums[1]]);
+
+    for (int i = 2; i < n; ++i)
+    {
+        int count1 = arr1.size() - tree1.get(index[nums[i]]);
+        int count2 = arr2.size() - tree2.get(index[nums[i]]);
+        if (count1 > count2 || (count1 == count2 && arr1.size() <= arr2.size()))
+        {
+            arr1.push_back(nums[i]);
+            tree1.add(index[nums[i]]);
+        }
+        else
+        {
+            arr2.push_back(nums[i]);
+            tree2.add(index[nums[i]]);
+        }
+    }
+
+    arr1.insert(arr1.end(), arr2.begin(), arr2.end());
+    return arr1;
+}
+
 int main()
 {
 
-    vector<int> nums = {1, 3, 2, 3, 1, 2, 3};
-    int ans = longestEqualSubarray(nums, 3);
-    cout << ans;
+    vector<int> nums = {5, 14, 3, 1, 2};
+    vector<int> ans = resultArray(nums);
+    for (auto a : ans)
+        cout << a << " ";
+    cout << endl;
     system("pause");
     return 0;
 }

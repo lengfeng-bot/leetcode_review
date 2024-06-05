@@ -183,6 +183,32 @@ vector<vector<int>> merge(vector<vector<int>> &intervals)
     return result;
 }
 
+vector<vector<int>> merge1(vector<vector<int>> &intervals)
+{
+
+    sort(intervals.begin(), intervals.end());
+    for (int i = 1; i < intervals.size(); i++)
+    {
+        if (intervals[i][0] <= intervals[i - 1][1])
+        {
+            intervals[i - 1][1] = max(intervals[i][1], intervals[i - 1][1]);
+            intervals.erase(intervals.begin() + i);
+            i--;
+        }
+    }
+    return intervals;
+}
+
+// int main()
+// {
+//     vector<vector<int>> inter = {{1, 4}, {3, 5}, {6, 7}};
+//     vector<vector<int>> ans = merge1(inter);
+//     for (auto a : ans)
+//         cout << a[0] << " " << a[1] << endl;
+//     system("pause");
+//     return 0;
+// }
+
 // 无重叠区间
 int eraseOverlapIntervals(vector<vector<int>> &intervals)
 {
@@ -319,13 +345,13 @@ long long numberOfWeeks(vector<int> &milestones)
     }
 }
 
-int main()
-{
-    vector<int> nums = {1, 2, 5};
-    cout << numberOfWeeks(nums) << endl;
-    system("pause");
-    return 0;
-}
+// int main()
+// {
+//     vector<int> nums = {1, 2, 5};
+//     cout << numberOfWeeks(nums) << endl;
+//     system("pause");
+//     return 0;
+// }
 
 // 移除石子的最大的得分
 int maximumScore(int a, int b, int c)
@@ -340,7 +366,77 @@ int maximumScore(int a, int b, int c)
 }
 
 // 使数组中所有元素相等的最小开销
+// 我的做法没办法完成{1, 14, 14, 15}这个例子，只能算出等于26，但是结果是20.究其原因在于未必把所有数变成原数组中最大的数就可以了。也许变成更大的数M会更好
 int minCostToEqualizeArray(vector<int> &nums, int cost1, int cost2)
 {
+    int max_num = *max_element(nums.begin(), nums.end());
+    for (auto &num : nums)
+    {
+        num -= max_num;
+        num = -num;
+    }
+    int sum = accumulate(nums.begin(), nums.end(), 0LL);
+    const int MOD = 1e9 + 7;
+    // 这两种情况直接求解
+    if (nums.size() <= 2 || 2 * cost1 <= cost2)
+        return sum * cost1 % MOD;
+    // 剩余的情况
+    int max2 = *max_element(nums.begin(), nums.end());
+    int rest = sum - max2;
+    if (max2 > rest + 1)
+        return cost2 * rest + cost1 * (max2 - rest);
+    else
+        return cost2 * rest;
+}
+
+// int main()
+// {
+
+//     vector<int> nums = {1, 14, 14, 15};
+//     cout << minCostToEqualizeArray(nums, 2, 1);
+//     system("pause");
+//     return 0;
+// }
+
+// 情侣牵手
+// 成对的数字中，因为是从0-1开始的，所以每对情侣中奇数是大于偶数的。此外，如果想要进行配对，更改某一对的第一个数字和第二个数字都是可以的。
+// 所以我们就看每一对的第一个数，如果是奇数x，那么与他配对的就是x-1;反之，如果是偶数x,那么与他配对的就是x+1。
+// 要完成这么目的，我们需要事先直到与当前配对的元素在哪个位置，这就需要 一个数据结构储存数字下标和元素大小，哈希表再合适不过了。
+int minSwapsCouples(vector<int> &row)
+{
+    int n = row.size();
+    int count = 0;
+    // unordered_map<int, int> map;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     map[row[i]] = i;
+    // }
+
+    for (int i = 0; i < n; i += 2)
+    {
+        unordered_map<int, int> map;
+        for (int j = 0; j < n; j++)
+        {
+            map[row[j]] = j;
+        }
+
+        if (abs(row[i + 1] - row[i]) > 1 || (row[i] % 2 != 0 && row[i] + 1 == row[i + 1]))
+        {
+            count++;
+            if (row[i] % 2 == 0)
+                swap(row[i + 1], row[map[row[i] + 1]]);
+            else
+                swap(row[i + 1], row[map[row[i] - 1]]);
+        }
+    }
+    return count;
+}
+
+int main()
+{
+
+    vector<int> nums = {5, 6, 4, 0, 2, 1, 9, 3, 8, 7, 11, 10};
+    cout << minSwapsCouples(nums) << endl;
+    system("pause");
     return 0;
 }

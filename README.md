@@ -18,3 +18,5 @@
 [Leetcode 刷题笔记--滑动窗口](https://blog.csdn.net/qq_45795134/article/details/137358522?spm=1001.2014.3001.5501)
 
 [Leetcode 刷题笔记--动态规划基础](https://blog.csdn.net/qq_45795134/article/details/137463008?spm=1001.2014.3001.5501)
+
+[Leetcode 刷题笔记--贪心](https://blog.csdn.net/qq_45795134/article/details/138898598?spm=1001.2014.3001.5501)
