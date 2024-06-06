@@ -162,6 +162,60 @@ int jump(vector<int> &nums)
 //     return 0;
 // }
 
+// 加油站
+int canCompleteCircuit(vector<int> &gas, vector<int> &cost)
+{
+    int n = gas.size();
+    int curcost = 0;
+    int sumcost = 0;
+    int a = 0;
+    for (int i = 0; i < n; i++)
+    {
+        curcost += gas[i] - cost[i];
+        sumcost += gas[i] - cost[i];
+        if (curcost < 0)
+        {
+            a = (i + 1) % n;
+            curcost = 0;
+        }
+    }
+    if (sumcost >= 0)
+        return a;
+    else
+        return -1;
+}
+
+/// @brief 单调递增的数字
+/// @param n
+/// @return
+int monotoneIncreasingDigits(int n)
+{
+    string s = to_string(n);
+    int fig = s.size();
+    for (int i = s.size() - 1; i > 0; i--)
+    {
+        if (s[i - 1] > s[i])
+        {
+            fig = i;
+            s[i - 1]--;
+        }
+    }
+
+    for (int i = fig; i < s.size(); i++)
+    {
+        s[i] = '9';
+    }
+    return stoi(s);
+}
+
+// int main()
+// {
+
+//     cout << monotoneIncreasingDigits(33223) << endl;
+//     system("pause");
+//     return 0;
+// }
+
 // 合并区间
 vector<vector<int>> merge(vector<vector<int>> &intervals)
 {
@@ -432,11 +486,11 @@ int minSwapsCouples(vector<int> &row)
     return count;
 }
 
-int main()
-{
+// int main()
+// {
 
-    vector<int> nums = {5, 6, 4, 0, 2, 1, 9, 3, 8, 7, 11, 10};
-    cout << minSwapsCouples(nums) << endl;
-    system("pause");
-    return 0;
-}
+//     vector<int> nums = {5, 6, 4, 0, 2, 1, 9, 3, 8, 7, 11, 10};
+//     cout << minSwapsCouples(nums) << endl;
+//     system("pause");
+//     return 0;
+// }

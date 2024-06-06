@@ -832,14 +832,70 @@ vector<int> resultArray1(vector<int> &nums)
     return arr1;
 }
 
+// int main()
+// {
+
+//     vector<int> nums = {5, 14, 3, 1, 2};
+//     vector<int> ans = resultArray(nums);
+//     for (auto a : ans)
+//         cout << a << " ";
+//     cout << endl;
+//     system("pause");
+//     return 0;
+// }
+
+// 统计1的个数，在哪个位置需要变成一，那就在这个位置之前的元素需要处理
+long long minimumSteps(string s)
+{
+    long long num_one = 0;
+    for (auto c : s)
+        if (c == '1')
+            num_one++;
+
+    int begin = s.size() - num_one;
+    long long count = 0;
+    int index_1 = 0;
+    int index_0 = 0;
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (i < begin)
+        {
+            if (s[i] == '1')
+                index_1 += i;
+        }
+        else
+        {
+            if (s[i] == '0')
+                index_0 += i;
+        }
+    }
+
+    return index_0 - index_1;
+}
+
+// 更简便的方法，统计每个白球左边黑球的数量，有多少个黑球就交换几次
+long long minimumSteps1(string s)
+{
+    long long ans = 0;
+    int sum = 0;
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (s[i] == '1')
+        {
+            sum++;
+        }
+        else
+        {
+            ans += sum;
+        }
+    }
+    return ans;
+}
+
 int main()
 {
 
-    vector<int> nums = {5, 14, 3, 1, 2};
-    vector<int> ans = resultArray(nums);
-    for (auto a : ans)
-        cout << a << " ";
-    cout << endl;
+    cout << minimumSteps("11000111") << endl;
     system("pause");
     return 0;
 }
