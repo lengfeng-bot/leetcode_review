@@ -208,20 +208,28 @@ vector<vector<int>> combinationSum(vector<int> &candidates, int target)
     return ans;
 }
 
-int main()
+// int main()
+// {
+//     vector<int> can = {3, 5, 8};
+//     vector<vector<int>> ans = combinationSum(can, 11);
+
+//     // print
+//     for (int i = 0; i < ans.size(); i++)
+//     {
+//         for (auto c : ans[i])
+//             cout << c << " ";
+
+//         cout << endl;
+//     }
+
+//     system("pause");
+//     return 0;
+// }
+
+/// @brief 组合总和2
+/// @param candidates
+/// @param target
+/// @return
+vector<vector<int>> combinationSum2(vector<int> &candidates, int target)
 {
-    vector<int> can = {3, 5, 8};
-    vector<vector<int>> ans = combinationSum(can, 11);
-
-    // print
-    for (int i = 0; i < ans.size(); i++)
-    {
-        for (auto c : ans[i])
-            cout << c << " ";
-
-        cout << endl;
-    }
-
-    system("pause");
-    return 0;
 }
