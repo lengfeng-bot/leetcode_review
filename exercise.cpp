@@ -892,10 +892,81 @@ long long minimumSteps1(string s)
     return ans;
 }
 
-int main()
-{
+// int main()
+// {
 
-    cout << minimumSteps("11000111") << endl;
-    system("pause");
+//     cout << minimumSteps("11000111") << endl;
+//     system("pause");
+//     return 0;
+// }
+
+/// 还未解答！
+///  @brief 戳气球
+///  @param nums
+///  @return
+int maxCoins(vector<int> &nums)
+{
+    int n = nums.size();
+
+    if (n == 1)
+        return nums[0];
+    if (n == 2)
+        return nums[0] * nums[1] + max(nums[0], nums[1]);
+    for (int i = 0; i < n; i++)
+    {
+        if (i == 0)
+        {
+            nums.erase(nums.begin() + i);
+            return nums[i] * nums[i + 1] + maxCoins(nums);
+        }
+        else if (i = n - 1)
+        {
+            nums.erase(nums.begin() + i);
+            return nums[i] * nums[i - 1] + maxCoins(nums);
+        }
+        else
+        {
+            nums.erase(nums.begin() + i);
+            return nums[i - 1] * nums[i] * nums[i + 1] + maxCoins(nums);
+        }
+    }
+
     return 0;
 }
+
+// int main()
+// {
+//     vector<int> nums = {3, 1, 8, 5};
+//     cout << maxCoins(nums) << endl;
+//     system("pause");
+//     return 0;
+// }
+
+int countBattleships(vector<vector<char>> &board)
+{
+    int m = board.size();
+    int n = board[0].size();
+    int count = 0;
+    for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+        {
+            if (board[i][j] == 'X' && (i == 0 || board[i - 1][j] != 'X') && (j == 0 || board[i][j - 1] != 'X'))
+                count++;
+        }
+
+    return count;
+}
+
+// int main()
+// {
+
+//     vector<vector<char>> board = {
+//         {'X', '.', '.', 'X'},
+//         {'.', '.', '.', 'X'},
+//         {'.', '.', '.', 'X'}};
+
+//     cout
+//         << countBattleships(board) << endl;
+//     system("pause");
+//     return 0;
+// }

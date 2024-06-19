@@ -69,7 +69,8 @@
     "functional": "cpp",
     "numeric": "cpp",
     "list": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "forward_list": "cpp"
   },
   "editor.suggest.snippetsPreventQuickSuggestions": false,
   "aiXcoder.showTrayIcon": true,
