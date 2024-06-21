@@ -481,7 +481,7 @@ vector<vector<int>> subsetsWithDup(vector<int> &nums)
 vector<vector<int>> ans13;
 vector<int> path13;
 
-void backtracking13(vector<int> &nums, vector<bool> used)
+void backtracking13(vector<int> &nums, vector<bool> used1)
 {
     if (path13.size() == nums.size())
     {
@@ -492,13 +492,13 @@ void backtracking13(vector<int> &nums, vector<bool> used)
     for (int i = 0; i < nums.size(); i++)
     {
 
-        if (used[i] == 1)
+        if (used1[i] == 1)
             continue;
         else
-            used[i] = 1;
+            used1[i] = 1;
         path13.push_back(nums[i]);
-        backtracking11(nums, used);
-        used[i] = 0;
+        backtracking13(nums, used1);
+        used1[i] = 0;
         path11.pop_back();
     }
 }
@@ -506,8 +506,8 @@ void backtracking13(vector<int> &nums, vector<bool> used)
 // 全排列
 vector<vector<int>> permute(vector<int> &nums)
 {
-    vector<bool> used(nums.size(), 0);
-    backtracking13(nums, used);
+    vector<bool> used1(nums.size(), 0);
+    backtracking13(nums, used1);
     return ans13;
 }
 
@@ -529,7 +529,7 @@ vector<vector<int>> permute(vector<int> &nums)
 // }
 
 vector<vector<int>> ans14;
-vector<int> path;
+vector<int> path14;
 
 void backtracking14(vector<int> &nums, unordered_map<int, int> &used)
 {
@@ -553,7 +553,7 @@ void backtracking14(vector<int> &nums, unordered_map<int, int> &used)
             used[nums[i]]--;
 
         path14.push_back(nums[i]);
-        backtracking11(nums, used);
+        backtracking14(nums, used);
         used[nums[i]]++;
         path14.pop_back();
     }
@@ -566,7 +566,7 @@ vector<vector<int>> permuteUnique(vector<int> &nums)
     for (auto c : nums)
         used[c]++;
     sort(nums.begin(), nums.end());
-    backtracking11(nums, used);
+    backtracking14(nums, used);
     return ans14;
 }
 
@@ -588,19 +588,107 @@ vector<vector<int>> permuteUnique(vector<int> &nums)
 // }
 
 vector<vector<string>> ways;
-vector<string> way;
+bool isValid(int row, int col, vector<string> &chessboard, int n);
+// vector<string> way;
 
-void queentracking(int n, vector<int> blackaera)
+void queentracking(int n, int row, vector<string> chess)
 {
 
-    if (way.size() == n)
+    if (row == n)
     {
-        ways.push_back(way);
+        ways.push_back(chess);
         return;
     }
+
+    for (int col = 0; col < n; col++)
+    {
+        if (isValid(row, col, chess, n))
+        {                          // 验证合法就可以放
+            chess[row][col] = 'Q'; // 放置皇后
+            queentracking(n, row + 1, chess);
+            chess[row][col] = '.'; // 回溯，撤销皇后
+        }
+    }
+}
+
+bool isValid(int row, int col, vector<string> &chessboard, int n)
+{
+    // 检查列
+    for (int i = 0; i < row; i++)
+    { // 这是一个剪枝
+        if (chessboard[i][col] == 'Q')
+        {
+            return false;
+        }
+    }
+    // 检查 45度角是否有皇后
+    for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--)
+    {
+        if (chessboard[i][j] == 'Q')
+        {
+            return false;
+        }
+    }
+    // 检查 135度角是否有皇后
+    for (int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++)
+    {
+        if (chessboard[i][j] == 'Q')
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 // N皇后！！
 vector<vector<string>> solveNQueens(int n)
 {
+    std::vector<std::string> chess(n, std::string(n, '.'));
+    queentracking(n, 0, chess);
+    return ways;
+}
+
+// int main()
+// {
+
+//     vector<vector<string>> ans = solveNQueens(4);
+
+//     for (int i = 0; i < ans.size(); i++)
+//     {
+//         for (auto w : ans[i])
+//             cout << w << " ";
+
+//         cout << endl;
+//     }
+
+//     system("pause");
+//     return 0;
+// }
+
+bool sudotracking(vector<vector<char>> &board)
+{
+
+    for (int i = 0; i < board.size(); i++)
+        for (int j = 0; j < board[0].size(); j++)
+        {
+            if (board[i][j] == '.')
+                continue;
+            for (char k = '0'; k < '9'; k++)
+            {
+                if (isValid(i, j, k, board))
+                {
+                    board[i][j] = k;
+                    if (sudotracking(board))
+                        return true;
+                    board[i][j] = '.';
+                }
+            }
+        }
+    return false;
+}
+
+// 解数独！
+void solveSudoku(vector<vector<char>> &board)
+{
+    backtracking(board);
 }
