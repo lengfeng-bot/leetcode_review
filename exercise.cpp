@@ -970,3 +970,98 @@ int countBattleships(vector<vector<char>> &board)
 //     system("pause");
 //     return 0;
 // }
+
+/// @brief 给墙壁刷油漆
+/// @param cost
+/// @param time
+/// @return
+// 要使得开销最少，那就要多用免费油漆工，但是免费工刷一堵墙一天，且在付费工工作时候才工作，那么就需要付费工尽量工作较多的天数，同时不能工作较多的花费。关键在于如何对这两者进行平衡
+// 由题意可知，免费工工作的天数，是小于等于付费工的。假设付费工刷了t堵墙，工作了sum1天,应该满足 sum1刚好大于等于 n-t。在此基础上，要满足付费工这t天开销最少
+int paintWalls(vector<int> &cost, vector<int> &time)
+{
+
+    int n = cost.size();
+    // 创建一个包含cost和time对的vector
+    std::vector<std::pair<int, int>> costTimePairs;
+    for (size_t i = 0; i < cost.size(); ++i)
+    {
+        costTimePairs.emplace_back(cost[i], time[i]);
+    }
+
+    // 对costTimePairs进行排序
+    std::sort(costTimePairs.begin(), costTimePairs.end());
+
+    // 提取排序后的结果
+    for (size_t i = 0; i < costTimePairs.size(); ++i)
+    {
+        cost[i] = costTimePairs[i].first;
+        time[i] = costTimePairs[i].second;
+    }
+    cout << "sorted cost:" << endl;
+    for (auto c : cost)
+        cout << c << " ";
+    cout << endl;
+
+    cout << "sorted time:" << endl;
+    for (auto c : time)
+        cout << c << " ";
+    cout << endl;
+
+    int t = 0;
+    int sum1 = 0;
+    int cost1 = 0;
+    for (int i = 0; i < cost.size() - 1; i++)
+    {
+
+        sum1 += time[i];
+        t++;
+        cost1 += cost[i];
+
+        if (sum1 - time[i] + time[i + 1] >= n - t && sum1 < n - t && cost[i + 1] - cost[i] <= cost[i] && time[i + 1] > time[i])
+        {
+            cost1 -= cost[i];
+            continue;
+        }
+        if (sum1 >= cost.size() - t)
+        {
+
+            break;
+        }
+    }
+
+    return cost1;
+}
+
+// 上面的方法根本求不出来，要考虑的情况太多了，只能用动态规划了，先抄一下
+int paintWalls(vector<int> &cost, vector<int> &time)
+{
+    int n = cost.size();
+    vector<int> f(n * 2 + 1, INT_MAX / 2);
+    f[n] = 0;
+    for (int i = 0; i < n; ++i)
+    {
+        vector<int> g(n * 2 + 1, INT_MAX / 2);
+        for (int j = 0; j <= n * 2; ++j)
+        {
+            // 付费
+            g[min(j + time[i], n * 2)] = min(g[min(j + time[i], n * 2)], f[j] + cost[i]);
+            // 免费
+            if (j > 0)
+            {
+                g[j - 1] = min(g[j - 1], f[j]);
+            }
+        }
+        f = move(g);
+    }
+    return *min_element(f.begin() + n, f.end());
+}
+
+// int main()
+// {
+//     vector<int> cost = {26, 53, 10, 24, 25, 20, 63, 51};
+//     vector<int> time = {1, 1, 1, 1, 2, 2, 2, 1};
+
+//     cout << paintWalls(cost, time) << endl;
+//     system("pause");
+//     return 0;
+// }

@@ -22,3 +22,5 @@
 [Leetcode 刷题笔记--贪心](https://blog.csdn.net/qq_45795134/article/details/138898598?spm=1001.2014.3001.5501)
 
 [Leetcode 刷题笔记--回溯](https://blog.csdn.net/qq_45795134/article/details/139469985?spm=1001.2014.3001.5501)
+
+[岛屿类问题的通用解法、DFS 遍历框架](https://leetcode.cn/problems/number-of-islands/solutions/211211/dao-yu-lei-wen-ti-de-tong-yong-jie-fa-dfs-bian-li-)
