@@ -24,3 +24,5 @@
 [Leetcode 刷题笔记--回溯](https://blog.csdn.net/qq_45795134/article/details/139469985?spm=1001.2014.3001.5501)
 
 [岛屿类问题的通用解法、DFS 遍历框架](https://leetcode.cn/problems/number-of-islands/solutions/211211/dao-yu-lei-wen-ti-de-tong-yong-jie-fa-dfs-bian-li-)
+
+[拓扑排序的相关题目](https://leetcode.cn/problems/find-eventual-safe-states/solutions/916564/gtalgorithm-san-ju-hua-jiao-ni-wan-zhuan-xf5o)

@@ -1033,7 +1033,7 @@ int paintWalls(vector<int> &cost, vector<int> &time)
 }
 
 // 上面的方法根本求不出来，要考虑的情况太多了，只能用动态规划了，先抄一下
-int paintWalls(vector<int> &cost, vector<int> &time)
+int paintWalls1(vector<int> &cost, vector<int> &time)
 {
     int n = cost.size();
     vector<int> f(n * 2 + 1, INT_MAX / 2);
@@ -1065,3 +1065,259 @@ int paintWalls(vector<int> &cost, vector<int> &time)
 //     system("pause");
 //     return 0;
 // }
+
+// 检查操作是否合法
+// 这道题目看起来麻烦，但看完之后感觉还好。。因为只需改变一个格子，然后判断是否能构成好线段即可，只需要把四个方向都判断一下，如果有一个方向可以组成好线段，那么返回true即可。
+// 需要注意的是，改变的格子必须是好线段的顶点才行，不能是中间的点
+// 四个方向继续分就有八种情况，这也太麻烦了吧。。。
+// 可以整个到一个函数，循环八次。。
+bool checkMove(vector<vector<char>> &board, int rMove, int cMove, char color)
+{
+    int n = 8;
+    char goodcolor;
+
+    if (color == 'B')
+        goodcolor = 'W';
+    else
+        goodcolor = 'B';
+
+    // 上
+    int row = rMove;
+    int col = cMove;
+    while (row >= 0)
+    {
+        row--;
+        if (row == rMove - 1)
+        {
+            if (board[row][col] != goodcolor)
+                break;
+        }
+        if (board[row][col] == '.')
+            break;
+        if (board[row][col] == color)
+            return true;
+    }
+
+    // 下
+    row = rMove;
+    col = cMove;
+    while (row < 8)
+    {
+        row++;
+        if (row == rMove + 1)
+        {
+            if (board[row][col] != goodcolor)
+                break;
+        }
+        if (board[row][col] == '.')
+            break;
+        if (board[row][col] == color)
+            return true;
+    }
+
+    // 左
+    row = rMove;
+    col = cMove;
+    while (col >= 0)
+    {
+        col--;
+        if (col == cMove - 1)
+        {
+            if (board[row][col] != goodcolor)
+                break;
+        }
+        if (board[row][col] == '.')
+            break;
+        if (board[row][col] == color)
+            return true;
+    }
+
+    // 右
+    row = rMove;
+    col = cMove;
+    while (col < 8)
+    {
+        col++;
+        if (col == cMove + 1)
+        {
+            if (board[row][col] != goodcolor)
+                break;
+        }
+        if (board[row][col] == '.')
+            break;
+        if (board[row][col] == color)
+            return true;
+    }
+
+    // 左上
+    row = rMove;
+    col = cMove;
+    while (col >= 0 && row >= 0)
+    {
+        col--;
+        row--;
+        if (col == cMove - 1)
+        {
+            if (board[row][col] != goodcolor)
+                break;
+        }
+        if (board[row][col] == '.')
+            break;
+        if (board[row][col] == color)
+            return true;
+    }
+
+    // 右下
+    row = rMove;
+    col = cMove;
+    while (col < 8 && row < 8)
+    {
+        col++;
+        row++;
+        if (col == cMove + 1)
+        {
+            if (board[row][col] != goodcolor)
+                break;
+        }
+        if (board[row][col] == '.')
+            break;
+        if (board[row][col] == color)
+            return true;
+    }
+
+    // 左下
+    row = rMove;
+    col = cMove;
+    while (col >= 0 && row < 8)
+    {
+        col--;
+        row++;
+        if (col == cMove - 1)
+        {
+            if (board[row][col] != goodcolor)
+                break;
+        }
+        if (board[row][col] == '.')
+            break;
+        if (board[row][col] == color)
+            return true;
+    }
+
+    // 右下
+    row = rMove;
+    col = cMove;
+    while (col < 8 && row >= 0)
+    {
+        col++;
+        row--;
+        if (col == cMove + 1)
+        {
+            if (board[row][col] != goodcolor)
+                break;
+        }
+        if (board[row][col] == '.')
+            break;
+        if (board[row][col] == color)
+            return true;
+    }
+
+    return false;
+}
+
+/// @brief 统计移除递增子数组的数目l
+/// @param nums
+/// @return
+
+bool isIncrease(vector<int> nums, int begin, int end)
+{
+    if (begin == end)
+        return true;
+
+    for (int i = begin; i < end; i++)
+    {
+        if (nums[i] >= nums[i + 1])
+            return false;
+    }
+    return true;
+}
+
+// 这道题之所以是简单题目，因为暴力可以解出来。数据量变一下，直接成困难题了。
+// int incremovableSubarrayCount(vector<int> &nums)
+// {
+//     int n = nums.size();
+//     int count = 1;
+//     for (int i = 0; i < n; i++)
+
+//         for (int j = i; j < n; j++)
+//         {
+
+//             if (i > 0 && j < n - 1)
+//             {
+//                 if (isIncrease(nums, 0, i - 1) && isIncrease(nums, j + 1, n - 1))
+//                 {
+
+//                     if (nums[i - 1] < nums[j + 1])
+//                         count++;
+//                 }
+//             }
+//             else if (i == 0 && j < n - 1)
+//             {
+//                 if (isIncrease(nums, j + 1, n - 1))
+//                     count++;
+//             }
+//             else if (i > 0 && j == n - 1)
+//             {
+//                 if (isIncrease(nums, 0, i - 1))
+//                     count++;
+//             }
+//         }
+
+//     return count;
+// }
+
+/// @brief 统计移除递增子数组的数目2
+/// @param nums
+/// @return
+// 这道题目的双指针解法太妙了！时间复杂度直接变为O(n)。
+// 具体的思路是，先让左指针移动到最长递增下标。如果当前数组为单调递增，那么直接返回（n）*(n+1)/2。
+// 如果数组前i个数组是单调递增，那么就让left = i。之后使得right 指向数组末尾，逐渐向左移动，直到出现 nums[right]>nums[left].
+// 那么此时可以移除以right-1为右边界，0-left-1为左边界的所有子数组。共有left+2个。之后继续向左移动左指针，将结果累加即可。这个过程调试一下才能清楚
+
+long long incremovableSubarrayCount(vector<int> &nums)
+{
+    long long ans = 0;
+    int n = nums.size();
+    int left = 0;
+    for (int i = 0; i < n - 1; i++)
+    {
+        if (nums[i] >= nums[i + 1])
+            break;
+        else
+            left++;
+    }
+    if (left == n - 1)
+        return (n + 1) * n / 2;
+
+    ans += left + 2;
+    for (int right = n - 1; right >= 0; right--)
+    {
+        if (right < n - 1 && nums[right] >= nums[right + 1])
+        {
+            break;
+        }
+        while (left >= 0 && nums[left] >= nums[right])
+            left--;
+        ans += left + 2;
+    }
+
+    return ans;
+}
+
+int main()
+{
+
+    vector<int> nums = {1, 3, 4, 1, 2};
+    cout << incremovableSubarrayCount(nums) << endl;
+    system("pause");
+    return 0;
+}

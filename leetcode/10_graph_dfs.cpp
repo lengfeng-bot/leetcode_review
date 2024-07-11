@@ -348,9 +348,202 @@ int numEnclaves(vector<vector<int>> &grid)
 //     return 0;
 // }
 
+void dfs5(vector<vector<int>> &grid, int x, int y, vector<vector<bool>> &reach)
+{
+
+    if (reach[x][y])
+        return;
+    reach[x][y] = 1;
+    if (x - 1 >= 0 && grid[x - 1][y] >= grid[x][y])
+        dfs5(grid, x - 1, y, reach);
+    if (x + 1 < grid.size() && grid[x + 1][y] >= grid[x][y])
+        dfs5(grid, x + 1, y, reach);
+    if (y - 1 >= 0 && grid[x][y - 1] >= grid[x][y])
+        dfs5(grid, x, y - 1, reach);
+    if (y + 1 < grid[0].size() && grid[x][y + 1] >= grid[x][y])
+        dfs5(grid, x, y + 1, reach);
+}
+
 /// @brief 太平洋大西洋水流问题
 /// @param heights
 /// @return
+// 水流逆流而上，先分别统计能到达太平洋，能到达大西洋的网格，之后取交集即可。
 vector<vector<int>> pacificAtlantic(vector<vector<int>> &heights)
 {
+    int m = heights.size();
+    int n = heights[0].size();
+    vector<vector<bool>> reachPO(m, vector<bool>(n, 0));
+    vector<vector<bool>> reachAO(m, vector<bool>(n, 0));
+    for (int i = 0; i < m; i++)
+    {
+        dfs5(heights, i, 0, reachPO);
+        dfs5(heights, i, n - 1, reachAO);
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        dfs5(heights, 0, i, reachPO);
+        dfs5(heights, m - 1, i, reachAO);
+    }
+    vector<vector<int>> ans;
+
+    for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+        {
+            if (reachAO[i][j] && reachPO[i][j])
+                ans.push_back({i, j});
+        }
+    return ans;
+}
+
+// int main()
+// {
+//     vector<vector<int>> grid = {{0, 0, 0, 0},
+//                                 {1, 2, 3, 0},
+//                                 {0, 1, 2, 0},
+//                                 {0, 0, 1, 0}};
+//     pacificAtlantic(grid);
+//     system("pause");
+//     return 0;
+// }
+
+/// 上面都是网格问题，它更好理解一些，下面开始，真正接触到复杂的图了！
+
+/// @brief 找到最终的安全状态
+/// @param graph
+/// @return
+// 三色法，很实用！
+bool isSafe(vector<vector<int>> &graph, vector<int> &color, int x)
+{
+
+    if (color[x] > 0)
+        return color[x] == 2;
+    color[x] = 1;
+    for (int y : graph[x])
+    {
+        if (!isSafe(graph, color, y))
+            return false;
+    }
+    color[x] = 2;
+    return true;
+}
+
+vector<int> eventualSafeNodes(vector<vector<int>> &graph)
+{
+    int n = graph.size();
+    vector<int> ans;
+    vector<int> color(n, 0);
+    for (int i = 0; i < n; i++)
+    {
+        if (isSafe(graph, color, i))
+            ans.push_back(i);
+    }
+    return ans;
+}
+
+// int main()
+// {
+//     vector<vector<int>> graph = {{1, 2},
+//                                  {2, 3},
+//                                  {5},
+//                                  {0},
+//                                  {5},
+//                                  {},
+//                                  {}};
+//     vector<int> ans = eventualSafeNodes(graph);
+//     system("pause");
+//     return 0;
+// }
+
+// 上面一题其实可以用到拓扑排序解决，在此之前，需要了解拓扑排序，出度和入度的相关概念。之后再说吧！
+
+// 寻找图中是否存在路径
+// 这道题要先进行转化，通过题意新建一个数组，获得每个节点相邻的对应关系。之后再去dfs,标记是否走过的节点即可。
+// 本来我想的是dfs不返回值，最后判断destination节点是否被访问过即可，但是下面的方法更好。
+bool dfs_path(vector<vector<int>> &path, int begin, int end, vector<bool> &isReach)
+{
+    isReach[begin] = true;
+    if (begin == end)
+        return true;
+
+    for (int i = 0; i < path[begin].size(); ++i)
+    {
+        if (isReach[path[begin][i]] == false && dfs_path(path, path[begin][i], end, isReach))
+            return true;
+    }
+    return false;
+}
+
+bool validPath(int n, vector<vector<int>> &edges, int source, int destination)
+{
+    vector<vector<int>> path(n);
+    vector<bool> isReach(n, 0);
+
+    for (int i = 0; i < edges.size(); ++i)
+    {
+        path[edges[i][0]].push_back(edges[i][1]);
+        path[edges[i][1]].push_back(edges[i][0]);
+    }
+    bool res = dfs_path(path, source, destination, isReach);
+    cout << res << endl;
+    return res;
+}
+
+// int main()
+// {
+
+//     vector<vector<int>> edges = {{0, 1}, {1, 2}, {2, 0}};
+//     int n = 3;
+//     int source = 0, destination = 2;
+//     validPath(n, edges, source, destination);
+//     system("pause");
+//     return 0;
+// }
+vector<vector<int>> paths;
+vector<int> path;
+
+void dfs_path2(vector<vector<int>> &graph, int begin, int end)
+{
+    if (path.back() == end)
+    {
+        paths.push_back(path);
+        return;
+    }
+    for (int i = 0; i < graph[begin].size(); i++)
+    {
+
+        path.push_back(graph[begin][i]);
+        dfs_path2(graph, graph[begin][i], end);
+        path.pop_back();
+    }
+}
+
+/// @brief 所有可能的路径
+/// @param graph
+/// @return
+// 这道题怎么感觉，跟之前做的回溯非常的像,果然，轻松拿下了！
+vector<vector<int>> allPathsSourceTarget(vector<vector<int>> &graph)
+{
+    path.push_back(0);
+    dfs_path2(graph, 0, graph.size() - 1);
+    return paths;
+}
+
+// int main()
+// {
+
+//     vector<vector<int>> graph = {{1, 2}, {3}, {3}, {}};
+//     allPathsSourceTarget(graph);
+//     return 0;
+// }
+
+/// @brief 钥匙和房间
+/// @param rooms
+/// @return
+// 这道题也不难，因为已经规定了，只能从第0号房间进入。设置一个visited数组，对房间进行一个遍历，如果所有房间都被访问到了，返回true
+bool canVisitAllRooms(vector<vector<int>> &rooms)
+{
+    bool ans;
+
+    return ans;
 }
